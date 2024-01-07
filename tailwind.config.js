@@ -29,8 +29,16 @@ export default {
       fontFamily: {
         body: ['Rubik'],
       },
+      gridTemplateColumns: {
+        desktop: 'min-content 1fr min-content'
+      },
+      gridTemplateRows: {
+        mobile: 'repeat(3, min-content)',
+        desktop: 'min-content min-content'
+      },
       screens: {
-        sm: '376px',
+        sm: '600px',
+        md: '970px',
         lg: '1440px'
       },
     },
