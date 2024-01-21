@@ -30,10 +30,12 @@ export default {
         body: ['Rubik'],
       },
       gridTemplateColumns: {
-        desktop: 'min-content 1fr min-content'
+        desktop: 'min-content 1fr min-content',
+        desktop_add: '50px 5fr 1fr'
       },
       gridTemplateRows: {
         mobile: 'repeat(3, min-content)',
+        mobile_add: 'repeat(2, min-content)',
         desktop: 'min-content min-content'
       },
       screens: {
