@@ -1,10 +1,4 @@
-interface CurrentUserMeta {
-    image: {
-        png: string
-        webp: string
-    }
-    username: string
-}
+import { CurrentUserMeta } from '../types'
 
 const AddComment: React.FC<CurrentUserMeta> = ({ image, username }) => {
 
