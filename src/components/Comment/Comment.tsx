@@ -32,9 +32,11 @@ const Comment: React.FC<CommentInterface> = ({ content, createdAt, score, user, 
                     <img src={IconReply} alt="" className='w-4' />
                     <p className="hover:text-primary-blue-light font-medium">  Reply</p>
                 </div>
+                {/* <Replies /> */}
+                <div className='col-start-2 col-span-2'>
+                    {replies?.length !== 0 ? replies?.map((reply) => (<Reply key={reply.id} {...reply} />)) : null}
+                </div>
             </article>
-            {/* <Replies /> */}
-            {replies?.length !== 0 ? replies?.map((reply) => (<Reply key={reply.id} {...reply} />)) : null}
         </>
     )
 }
