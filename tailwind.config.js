@@ -38,9 +38,12 @@ export default {
         mobile_add: 'repeat(2, min-content)',
         desktop: 'min-content min-content'
       },
+      maxWidth: {
+        default: '50rem'
+      },
       screens: {
         sm: '600px',
-        md: '970px',
+        md: '700px',
         lg: '1440px'
       },
     },

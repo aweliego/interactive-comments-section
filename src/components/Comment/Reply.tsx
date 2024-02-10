@@ -7,7 +7,7 @@ import { ResponseInterface } from '../../types'
 const Reply: React.FC<ResponseInterface> = ({ content, createdAt, score, user, replyingTo }) => {
 
     const response = (<>
-        <article className="bg-neutral-white rounded grid grid-rows-mobile md:grid-rows-desktop md:grid-cols-desktop w-full p-4 md:p-8 m-2">
+        <article className="bg-neutral-white rounded grid grid-rows-mobile md:grid-rows-desktop md:grid-cols-desktop w-full p-4 md:p-8 my-2">
             {/* Meta */}
             <div className='flex flex-grow-1 w-full gap-4 items-center row-start-1 row-span-1 col-start-1 col-span-3 md:col-start-2 md:col-span-1'>
                 <img src={user?.image?.png} alt="user-icon" className='w-8' />
