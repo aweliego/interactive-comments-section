@@ -10,11 +10,10 @@ interface MessageMeta {
         }
         username: string
     }
+    replyingTo?: string
 }
 
-export type ResponseInterface = MessageMeta & { replyingTo: string }
-
-export type CommentInterface = MessageMeta & { replies?: Array<ResponseInterface> }
+export type CommentInterface = MessageMeta & { replies?: Array<MessageMeta> }
 
 export interface CurrentUserMeta {
     image: {
