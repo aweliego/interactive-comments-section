@@ -8,7 +8,7 @@ const App = () => {
 
   return (
     <section className='flex flex-col items-center justify-center max-w-default mx-auto p-10'>
-      {comments.map((comment) => <Comment key={comment.id} {...comment} />)}
+      {comments.map((comment) => <Comment key={comment.id} comment={comment} currentUser={currentUser} />)}
       <AddComment {...currentUser} />
     </section>
   )

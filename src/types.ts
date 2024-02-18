@@ -13,12 +13,16 @@ interface MessageMeta {
     replyingTo?: string
 }
 
-export type CommentInterface = MessageMeta & { replies?: Array<MessageMeta> }
-
 export interface CurrentUserMeta {
     image: {
         png: string
         webp: string
     }
     username: string
+    action?: string
+}
+
+export interface CommentInterface {
+    comment: MessageMeta & { replies?: Array<MessageMeta> }
+    currentUser: CurrentUserMeta
 }

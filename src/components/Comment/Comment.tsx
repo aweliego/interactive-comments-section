@@ -3,23 +3,20 @@ import CommentBuilder from './CommentBuilder'
 import { CommentInterface } from '../../types'
 
 
-const Comment: React.FC<CommentInterface> = ({ id, content, createdAt, score, user, replies }) => {
+const Comment: React.FC<CommentInterface> = ({ comment, currentUser }) => {
 
     return (
         <>
             <CommentBuilder
-                id={id}
-                content={content}
-                createdAt={createdAt}
-                score={score}
-                user={user}
+                comment={comment}
+                currentUser={currentUser}
             />
-            {replies?.length !== 0 ? (
+            {comment.replies?.length !== 0 ? (
                 <div className='flex'>
                     <div className='w-1 bg-neutral-gray-light md:ml-12'></div>
                     <div className='pl-6 md:pl-12'>
-                        {replies?.map((reply) =>
-                            (<CommentBuilder key={reply.id} {...reply} />))}
+                        {comment.replies?.map((reply) =>
+                            (<CommentBuilder key={reply.id} {...reply} comment={comment} currentUser={currentUser} />))}
                     </div>
                 </div>) : null}
 

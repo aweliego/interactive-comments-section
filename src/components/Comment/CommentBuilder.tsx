@@ -1,11 +1,24 @@
+import { useState } from 'react'
+
 import IconPlus from '../../../public/images/icon-plus.svg'
 import IconMinus from '../../../public/images/icon-minus.svg'
 import IconReply from '../../../public/images/icon-reply.svg'
 
 import { CommentInterface } from '../../types'
+import AddComment from '../AddComment'
 
 
-const CommentBuilder: React.FC<CommentInterface> = ({ content, createdAt, score, user, replyingTo }) => {
+const CommentBuilder: React.FC<CommentInterface> = ({ comment, currentUser }) => {
+    const { content, createdAt, score, user, replyingTo } = comment
+    const { image, username } = currentUser
+
+    const [newComment, setNewComment] = useState<boolean>(false)
+    const [action, setAction] = useState<string | undefined>('create')
+
+    const handleReply = () => {
+        setNewComment(true)
+        setAction('reply')
+    }
 
     return (
         <>
@@ -31,9 +44,12 @@ const CommentBuilder: React.FC<CommentInterface> = ({ content, createdAt, score,
                 {/* CTA */}
                 <div className='text-primary-blue-moderate flex items-center gap-2 mr-4 hover:cursor-pointer row-start-3 row-span-1 md:row-start-1 md:row-span-1 col-start-3 col-span-1'>
                     <img src={IconReply} alt="" className='w-4' />
-                    <p className="hover:text-primary-blue-light font-medium">  Reply</p>
+                    <p className="hover:text-primary-blue-light font-medium"
+                        onClick={handleReply}
+                    >  Reply</p>
                 </div>
             </article>
+            {newComment && <AddComment image={image} username={username} action={action} />}
         </>
     )
 }
