@@ -1,6 +1,6 @@
 import data from '../data.json'
 import Comment from './components/Comment/Comment'
-import AddComment from './components/AddComment'
+import NewCommentForm from './components/NewCommentForm'
 
 const App = () => {
   const { comments } = data
@@ -9,7 +9,7 @@ const App = () => {
   return (
     <section className='flex flex-col items-center justify-center max-w-default mx-auto p-10'>
       {comments.map((comment) => <Comment key={comment.id} comment={comment} currentUser={currentUser} />)}
-      <AddComment {...currentUser} />
+      <NewCommentForm {...currentUser} action={'create'} />
     </section>
   )
 }

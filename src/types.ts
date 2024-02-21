@@ -20,6 +20,7 @@ export interface CurrentUserMeta {
     }
     username: string
     action?: string
+    handleHideNewCommentForm?: () => void
 }
 
 export interface CommentInterface {

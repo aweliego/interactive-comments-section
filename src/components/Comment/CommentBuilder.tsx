@@ -5,19 +5,23 @@ import IconMinus from '../../../public/images/icon-minus.svg'
 import IconReply from '../../../public/images/icon-reply.svg'
 
 import { CommentInterface } from '../../types'
-import AddComment from '../AddComment'
+import NewCommentForm from '../NewCommentForm'
 
 
 const CommentBuilder: React.FC<CommentInterface> = ({ comment, currentUser }) => {
     const { content, createdAt, score, user, replyingTo } = comment
     const { image, username } = currentUser
 
-    const [newComment, setNewComment] = useState<boolean>(false)
-    const [action, setAction] = useState<string | undefined>('create')
+    const [isNewComment, setIsNewComment] = useState<boolean>(false)
+    const [action, setAction] = useState<string>('create')
 
     const handleReply = () => {
-        setNewComment(true)
+        setIsNewComment(true)
         setAction('reply')
+    }
+
+    const handleHideNewCommentForm = () => {
+        setIsNewComment(false)
     }
 
     return (
@@ -49,7 +53,7 @@ const CommentBuilder: React.FC<CommentInterface> = ({ comment, currentUser }) =>
                     >  Reply</p>
                 </div>
             </article>
-            {newComment && <AddComment image={image} username={username} action={action} />}
+            {isNewComment && <NewCommentForm image={image} username={username} action={action} handleHideNewCommentForm={handleHideNewCommentForm} />}
         </>
     )
 }
