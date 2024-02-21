@@ -16,7 +16,7 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser }) => {
                     <div className='w-1 bg-neutral-gray-light md:ml-12'></div>
                     <div className='pl-6 md:pl-12'>
                         {comment.replies?.map((reply) =>
-                            (<CommentBuilder key={reply.id} {...reply} comment={comment} currentUser={currentUser} />))}
+                            (<CommentBuilder key={reply.id} comment={reply} currentUser={currentUser} />))}
                     </div>
                 </div>) : null}
 
