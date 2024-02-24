@@ -8,19 +8,22 @@ const NewCommentForm: React.FC<CurrentUserMeta> = ({ image, username, action, ha
     // console.log('commentsList: ', commentsList)
 
 
-    const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         e.preventDefault()
-        const newComment = { id: Date.now(), newCommentContent, createdAt: 'now', score: 0, image, username }
-        setCommentsList([...commentsList, newComment])
-        setNewCommentContent('')
-        handleHideNewCommentForm && handleHideNewCommentForm()
+        if (newCommentContent.trim() !== "" && newCommentContent.trim() !== "\n") {
+            const newComment = { id: Date.now(), newCommentContent, createdAt: 'now', score: 0, image, username }
+            setCommentsList([...commentsList, newComment])
+            setNewCommentContent('')
+            handleHideNewCommentForm && handleHideNewCommentForm()
+        }
+        return undefined
     }
 
-    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
         setNewCommentContent(e.target.value)
     }
 
-    const updateButtonText = (action: string) => {
+    const updateButtonText = (action: string): string => {
         switch (action) {
             case 'create': return 'SEND'
             case 'reply': return 'REPLY'
@@ -34,7 +37,8 @@ const NewCommentForm: React.FC<CurrentUserMeta> = ({ image, username, action, ha
             <textarea
                 placeholder='Add a comment...'
                 className='col-start-1 col-span-3 md:row-start-1 md:row-span-2 md:col-start-2 md:col-span-1 p-4 border-2 border-neutral-gray-light outline-primary-blue-moderate '
-                onChange={(e) => handleChange(e)}
+                onChange={handleChange}
+                value={newCommentContent}
             >
             </textarea>
             <img

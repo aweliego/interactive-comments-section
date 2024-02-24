@@ -15,12 +15,12 @@ const CommentBuilder: React.FC<CommentInterface> = ({ comment, currentUser }) =>
     const [isNewComment, setIsNewComment] = useState<boolean>(false)
     const [action, setAction] = useState<string>('create')
 
-    const handleReply = () => {
+    const handleReply = (): void => {
         setIsNewComment(true)
         setAction('reply')
     }
 
-    const handleHideNewCommentForm = () => {
+    const handleHideNewCommentForm = (): void => {
         setIsNewComment(false)
     }
 
