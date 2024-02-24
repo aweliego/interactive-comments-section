@@ -3,24 +3,26 @@ import { CurrentUserMeta } from '../types'
 import { useState } from 'react'
 
 const NewCommentForm: React.FC<CurrentUserMeta> = ({ image, username, action, handleHideNewCommentForm }) => {
+    const [disabled, setDisabled] = useState<boolean>(true)
     const [newCommentContent, setNewCommentContent] = useState<string>('')
     const [commentsList, setCommentsList] = useState<any>([])
     // console.log('commentsList: ', commentsList)
 
-
     const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         e.preventDefault()
-        if (newCommentContent.trim() !== "" && newCommentContent.trim() !== "\n") {
-            const newComment = { id: Date.now(), newCommentContent, createdAt: 'now', score: 0, image, username }
-            setCommentsList([...commentsList, newComment])
-            setNewCommentContent('')
-            handleHideNewCommentForm && handleHideNewCommentForm()
-        }
+        const newComment = { id: Date.now(), newCommentContent, createdAt: 'now', score: 0, image, username }
+        setCommentsList([...commentsList, newComment])
+        setNewCommentContent('')
+        setDisabled(true)
+        handleHideNewCommentForm && handleHideNewCommentForm()
         return undefined
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
         setNewCommentContent(e.target.value)
+        if (e.target.value.trim() !== "" && e.target.value.trim() !== "\n") {
+            setDisabled(false)
+        }
     }
 
     const updateButtonText = (action: string): string => {
@@ -45,8 +47,9 @@ const NewCommentForm: React.FC<CurrentUserMeta> = ({ image, username, action, ha
                 src={image?.png}
                 alt="user-icon"
                 className='w-8 justify-self-start md:justify-self-end row-start-2 col-start-1 col-span-1 md:row-start-1 md:row-span-1' />
-            <button className='px-8 py-3 rounded bg-primary-blue-moderate text-white hover:bg-primary-blue-light justify-self-end row-start-2 col-start-3 md:row-start-1 md:row-span-1 md:col-start-3 md:col-span-1'
+            <button className={`px-8 py-3 rounded  bg-primary-blue-moderate text-white ${disabled ? 'cursor-not-allowed opacity-70' : ' opacity-100 hover:bg-primary-blue-light cursor-pointer'} justify-self-end row-start-2 col-start-3 md:row-start-1 md:row-span-1 md:col-start-3 md:col-span-1`}
                 type='submit'
+                disabled={disabled}
                 onClick={handleSubmit}>
                 {action && updateButtonText(action)}
             </button>
