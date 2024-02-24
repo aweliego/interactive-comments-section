@@ -2,7 +2,7 @@ import { CurrentUserMeta } from '../types'
 
 import { useState } from 'react'
 
-const NewCommentForm: React.FC<CurrentUserMeta> = ({ image, username, action, handleHideNewCommentForm }) => {
+const NewCommentForm: React.FC<CurrentUserMeta> = ({ image, username, action, followUpAction }) => {
     const [disabled, setDisabled] = useState<boolean>(true)
     const [newCommentContent, setNewCommentContent] = useState<string>('')
     const [commentsList, setCommentsList] = useState<any>([])
@@ -14,8 +14,7 @@ const NewCommentForm: React.FC<CurrentUserMeta> = ({ image, username, action, ha
         setCommentsList([...commentsList, newComment])
         setNewCommentContent('')
         setDisabled(true)
-        handleHideNewCommentForm && handleHideNewCommentForm()
-        return undefined
+        followUpAction && followUpAction()
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {

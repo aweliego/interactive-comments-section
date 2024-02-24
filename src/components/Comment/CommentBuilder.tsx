@@ -53,7 +53,10 @@ const CommentBuilder: React.FC<CommentInterface> = ({ comment, currentUser }) =>
                     >  Reply</p>
                 </div>
             </article>
-            {isNewComment && <NewCommentForm image={image} username={username} action={action} handleHideNewCommentForm={handleHideNewCommentForm} />}
+            <div className={`${isNewComment ? 'block' : 'hidden'}`}>
+                <NewCommentForm
+                    image={image} username={username} action={action} followUpAction={handleHideNewCommentForm} />
+            </div>
         </>
     )
 }
