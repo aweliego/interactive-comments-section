@@ -8,7 +8,7 @@ import { CommentInterface } from '../../types'
 import NewCommentForm from '../NewCommentForm'
 
 
-const CommentBuilder: React.FC<CommentInterface> = ({ comment, currentUser }) => {
+const CommentBuilder: React.FC<CommentInterface> = ({ comment, currentUser, commentsList, updateCommentsList }) => {
     const { content, createdAt, score, user, replyingTo } = comment
     const { image, username } = currentUser
 
@@ -55,7 +55,12 @@ const CommentBuilder: React.FC<CommentInterface> = ({ comment, currentUser }) =>
             </article>
             <div className={`${isNewComment ? 'block' : 'hidden'}`}>
                 <NewCommentForm
-                    image={image} username={username} action={action} followUpAction={handleHideNewCommentForm} />
+                    image={image}
+                    username={username}
+                    action={action}
+                    followUpAction={handleHideNewCommentForm}
+                    commentsList={commentsList}
+                    updateCommentsList={updateCommentsList} />
             </div>
         </>
     )

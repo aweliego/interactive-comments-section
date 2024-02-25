@@ -1,4 +1,4 @@
-interface MessageMeta {
+export interface MessageMeta {
     id: number
     content: string
     createdAt: string
@@ -21,9 +21,13 @@ export interface CurrentUserMeta {
     username: string
     action?: string
     followUpAction?: () => void
+    commentsList?: MessageMeta[]
+    updateCommentsList?: (list: MessageMeta[]) => void
 }
 
 export interface CommentInterface {
     comment: MessageMeta & { replies?: Array<MessageMeta> }
     currentUser: CurrentUserMeta
+    commentsList: MessageMeta[]
+    updateCommentsList: (list: MessageMeta[]) => void
 }

@@ -1,17 +1,22 @@
-import { CurrentUserMeta } from '../types'
+import { MessageMeta, CurrentUserMeta } from '../types'
 
 import { useState } from 'react'
 
-const NewCommentForm: React.FC<CurrentUserMeta> = ({ image, username, action, followUpAction }) => {
+const NewCommentForm: React.FC<CurrentUserMeta> = ({ image, username, action, followUpAction, commentsList, updateCommentsList }) => {
     const [disabled, setDisabled] = useState<boolean>(true)
     const [newCommentContent, setNewCommentContent] = useState<string>('')
-    const [commentsList, setCommentsList] = useState<any>([])
-    // console.log('commentsList: ', commentsList)
 
     const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         e.preventDefault()
-        const newComment = { id: Date.now(), newCommentContent, createdAt: 'now', score: 0, image, username }
-        setCommentsList([...commentsList, newComment])
+        const newComment = {
+            id: Date.now(),
+            content: newCommentContent,
+            createdAt: 'now',
+            score: 0,
+            user: { image, username },
+            replies: []
+        }
+        updateCommentsList && updateCommentsList([...commentsList as MessageMeta[], newComment])
         setNewCommentContent('')
         setDisabled(true)
         followUpAction && followUpAction()
