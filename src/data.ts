@@ -47,7 +47,8 @@ const data = {
               "webp": "./images/avatars/image-ramsesmiron.webp"
             },
             "username": "ramsesmiron"
-          }
+          },
+          "replies": []
         },
         {
           "id": 4,
@@ -61,7 +62,8 @@ const data = {
               "webp": "./images/avatars/image-juliusomo.webp"
             },
             "username": "juliusomo"
-          }
+          },
+          "replies": []
         }
       ]
     }

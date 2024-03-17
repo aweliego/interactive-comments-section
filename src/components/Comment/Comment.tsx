@@ -8,14 +8,14 @@ import { CommentInterface } from '../../types'
 import NewCommentForm from '../NewCommentForm'
 
 
-const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentsList, updateCommentsList }) => {
+const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentsList, onReply }) => {
     const { content, createdAt, score, user, replyingTo } = comment
     const { image, username } = currentUser
 
     const [isAReply, setIsAReply] = useState<boolean>(false)
     const [action, setAction] = useState<string>('create')
 
-    const handleReply = (): void => {
+    const handleClickReply = (): void => {
         setIsAReply(true)
         setAction('reply')
     }
@@ -49,10 +49,25 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentsLis
                 <div className='text-primary-blue-moderate flex items-center gap-2 mr-4 hover:cursor-pointer row-start-3 row-span-1 md:row-start-1 md:row-span-1 col-start-3 col-span-1'>
                     <img src={IconReply} alt="" className='w-4' />
                     <p className="hover:text-primary-blue-light font-medium"
-                        onClick={handleReply}
+                        onClick={handleClickReply}
                     >  Reply</p>
                 </div>
             </article>
+            {comment.replies?.length !== 0 ? (
+                <div className='flex'>
+                    <div className='w-1 bg-neutral-gray-light md:ml-12'></div>
+                    <div className='pl-6 md:pl-12'>
+                        {comment.replies?.map((reply) =>
+                        (<Comment
+                            key={reply.id}
+                            comment={reply}
+                            currentUser={currentUser}
+                            commentsList={commentsList}
+                            // updateCommentsList={updateCommentsList}
+                            onReply={onReply}
+                        />))}
+                    </div>
+                </div>) : null}
             <div className={`${isAReply ? 'block' : 'hidden'}`}>
                 <NewCommentForm
                     image={image}
@@ -60,7 +75,8 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentsLis
                     action={action}
                     followUpAction={handleHideNewCommentForm}
                     commentsList={commentsList}
-                    updateCommentsList={updateCommentsList} />
+                    comment={comment}
+                    onReply={onReply} />
             </div>
         </>
     )

@@ -23,12 +23,14 @@ export interface CurrentUserMeta {
     action?: string
     followUpAction?: () => void
     commentsList?: MessageMeta[]
-    updateCommentsList?: (list: MessageMeta[]) => void
+    comment?: MessageMeta
+    onNewTopLevelComment?: (list: MessageMeta[]) => void
+    onReply?: (parentComment: MessageMeta, reply: MessageMeta) => void
 }
 
 export interface CommentInterface {
-    comment: MessageMeta & { replies?: Array<MessageMeta> }
+    comment: MessageMeta
     currentUser: CurrentUserMeta
     commentsList: MessageMeta[]
-    updateCommentsList: (list: MessageMeta[]) => void
+    onReply: (parentComment: MessageMeta, reply: MessageMeta) => void
 }

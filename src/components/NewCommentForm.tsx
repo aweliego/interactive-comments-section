@@ -2,7 +2,7 @@ import { MessageMeta, CurrentUserMeta } from '../types'
 
 import { useState } from 'react'
 
-const NewCommentForm: React.FC<CurrentUserMeta> = ({ image, username, action, followUpAction, commentsList, updateCommentsList }) => {
+const NewCommentForm: React.FC<CurrentUserMeta> = ({ image, username, action, followUpAction, commentsList, comment, onNewTopLevelComment, onReply }) => {
     const [disabled, setDisabled] = useState<boolean>(true)
     const [newCommentContent, setNewCommentContent] = useState<string>('')
 
@@ -16,7 +16,8 @@ const NewCommentForm: React.FC<CurrentUserMeta> = ({ image, username, action, fo
             user: { image, username },
             replies: []
         }
-        updateCommentsList && updateCommentsList([...commentsList as MessageMeta[], newComment])
+        onNewTopLevelComment && onNewTopLevelComment([...commentsList as MessageMeta[], newComment])
+        comment && onReply && onReply(comment, newComment)
         setNewCommentContent('')
         setDisabled(true)
         followUpAction && followUpAction()

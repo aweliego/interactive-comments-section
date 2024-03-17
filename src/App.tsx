@@ -10,8 +10,13 @@ const App = () => {
 
   const [commentsList, setCommentsList] = useState<MessageMeta[]>(comments)
 
-  const updateCommentsList = (list: MessageMeta[]): void => {
+  const handleNewTopLevelComment = (list: MessageMeta[]): void => {
     setCommentsList(list)
+  }
+
+  const handleReply = (parentComment: MessageMeta, reply: MessageMeta) => {
+    parentComment?.replies?.push(reply)
+    setCommentsList([...commentsList])
   }
 
   return (
@@ -19,32 +24,19 @@ const App = () => {
       {commentsList.map((comment) =>
         <>
           <Comment
+            key={comment.id}
             comment={comment}
             currentUser={currentUser}
             commentsList={commentsList}
-            updateCommentsList={updateCommentsList}
+            onReply={handleReply}
           />
-          {comment.replies?.length !== 0 ? (
-            <div className='flex'>
-              <div className='w-1 bg-neutral-gray-light md:ml-12'></div>
-              <div className='pl-6 md:pl-12'>
-                {comment.replies?.map((reply) =>
-                (<Comment
-                  key={reply.id}
-                  comment={reply}
-                  currentUser={currentUser}
-                  commentsList={commentsList}
-                  updateCommentsList={updateCommentsList}
-                />))}
-              </div>
-            </div>) : null}
         </>
       )}
       <NewCommentForm
         {...currentUser}
         action={'create'}
         commentsList={commentsList}
-        updateCommentsList={updateCommentsList}
+        onNewTopLevelComment={handleNewTopLevelComment}
       />
     </section>
   )
