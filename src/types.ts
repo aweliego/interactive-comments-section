@@ -11,6 +11,7 @@ export interface MessageMeta {
         username: string
     }
     replyingTo?: string
+    replies?: MessageMeta[]
 }
 
 export interface CurrentUserMeta {

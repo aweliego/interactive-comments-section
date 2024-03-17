@@ -17,13 +17,29 @@ const App = () => {
   return (
     <section className='flex flex-col items-center justify-center max-w-default mx-auto p-10'>
       {commentsList.map((comment) =>
-        <Comment
-          key={comment.id}
-          comment={comment}
-          currentUser={currentUser}
-          commentsList={commentsList}
-          updateCommentsList={updateCommentsList}
-        />)}
+        <>
+          <Comment
+            comment={comment}
+            currentUser={currentUser}
+            commentsList={commentsList}
+            updateCommentsList={updateCommentsList}
+          />
+          {comment.replies?.length !== 0 ? (
+            <div className='flex'>
+              <div className='w-1 bg-neutral-gray-light md:ml-12'></div>
+              <div className='pl-6 md:pl-12'>
+                {comment.replies?.map((reply) =>
+                (<Comment
+                  key={reply.id}
+                  comment={reply}
+                  currentUser={currentUser}
+                  commentsList={commentsList}
+                  updateCommentsList={updateCommentsList}
+                />))}
+              </div>
+            </div>) : null}
+        </>
+      )}
       <NewCommentForm
         {...currentUser}
         action={'create'}
