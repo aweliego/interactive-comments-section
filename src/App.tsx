@@ -20,7 +20,7 @@ const App = () => {
   }
 
   return (
-    <section className='flex flex-col items-center justify-center max-w-default mx-auto p-10'>
+    <main className='flex flex-col items-center justify-center max-w-default mx-auto p-10'>
       {commentsList.map((comment) =>
         <>
           <Comment
@@ -38,7 +38,7 @@ const App = () => {
         commentsList={commentsList}
         onNewTopLevelComment={handleNewTopLevelComment}
       />
-    </section>
+    </main>
   )
 }
 

@@ -63,7 +63,6 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentsLis
                             comment={reply}
                             currentUser={currentUser}
                             commentsList={commentsList}
-                            // updateCommentsList={updateCommentsList}
                             onReply={onReply}
                         />))}
                     </div>
