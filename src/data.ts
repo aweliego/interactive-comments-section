@@ -48,7 +48,6 @@ const data = {
             },
             "username": "ramsesmiron"
           },
-          "replies": []
         },
         {
           "id": 4,
@@ -63,7 +62,6 @@ const data = {
             },
             "username": "juliusomo"
           },
-          "replies": []
         }
       ]
     }
