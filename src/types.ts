@@ -22,7 +22,7 @@ export interface CurrentUserMeta {
     username: string
     action?: string
     followUpAction?: () => void
-    commentsList?: MessageMeta[]
+    commentList?: MessageMeta[]
     comment?: MessageMeta
     onNewTopLevelComment?: (list: MessageMeta[]) => void
     onReply?: (parentComment: MessageMeta, reply: MessageMeta) => void
@@ -31,6 +31,6 @@ export interface CurrentUserMeta {
 export interface CommentInterface {
     comment: MessageMeta
     currentUser: CurrentUserMeta
-    commentsList: MessageMeta[]
+    commentList: MessageMeta[]
     onReply: (parentComment: MessageMeta, reply: MessageMeta) => void
 }

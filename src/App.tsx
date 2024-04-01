@@ -8,10 +8,10 @@ const App = () => {
   const { comments } = data
   const { currentUser } = data
 
-  const [commentsList, setCommentsList] = useState<MessageMeta[]>(comments)
+  const [commentList, setCommentList] = useState<MessageMeta[]>(comments)
 
   const handleNewTopLevelComment = (list: MessageMeta[]): void => {
-    setCommentsList(list)
+    setCommentList(list)
   }
 
   /**
@@ -48,20 +48,20 @@ const App = () => {
    * @returns undefined
    */
   const handleReply = (commentedPost: MessageMeta, newComment: MessageMeta) => {
-    const topLevelComment = findTopLevelComment(commentedPost, commentsList)
+    const topLevelComment = findTopLevelComment(commentedPost, commentList)
     topLevelComment?.replies?.push(newComment)
-    setCommentsList([...commentsList])
+    setCommentList([...commentList])
   }
 
   return (
     <main className='flex flex-col items-center justify-center max-w-default mx-auto p-10'>
-      {commentsList.map((comment) =>
+      {commentList.map((comment) =>
         <>
           <Comment
             key={comment.id}
             comment={comment}
             currentUser={currentUser}
-            commentsList={commentsList}
+            commentList={commentList}
             onReply={handleReply}
           />
         </>
@@ -69,7 +69,7 @@ const App = () => {
       <NewCommentForm
         {...currentUser}
         action={'create'}
-        commentsList={commentsList}
+        commentList={commentList}
         onNewTopLevelComment={handleNewTopLevelComment}
       />
     </main>

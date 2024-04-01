@@ -8,7 +8,7 @@ import { CommentInterface } from '../../types'
 import NewCommentForm from '../NewCommentForm'
 
 
-const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentsList, onReply }) => {
+const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList, onReply }) => {
     const { content, createdAt, score, user, replyingTo } = comment
     const { image, username } = currentUser
 
@@ -62,7 +62,7 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentsLis
                             key={reply.id}
                             comment={reply}
                             currentUser={currentUser}
-                            commentsList={commentsList}
+                            commentList={commentList}
                             onReply={onReply}
                         />))}
                     </div>
@@ -73,7 +73,7 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentsLis
                     username={username}
                     action={action}
                     followUpAction={handleHideNewCommentForm}
-                    commentsList={commentsList}
+                    commentList={commentList}
                     comment={comment}
                     onReply={onReply} />
             </div>
