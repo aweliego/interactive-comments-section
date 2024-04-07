@@ -27,7 +27,7 @@ const App = () => {
    */
   const findTopLevelComment = (commentedPost: MessageMeta, allComments: MessageMeta[]): MessageMeta | undefined => {
     let topLevelComment
-    // runs if comment is top level (aka not a reply)
+    // runs if commentedPost is top level (aka commentedPost is not a reply)
     if (commentedPost.id) {
       topLevelComment = allComments.find((comment) => comment.id === commentedPost.id)
     }

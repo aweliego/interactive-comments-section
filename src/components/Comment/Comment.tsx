@@ -54,9 +54,9 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList
                 </div>
             </article>
             {comment.replies?.length !== 0 ? (
-                <div className='flex'>
-                    <div className='w-1 bg-neutral-gray-light md:ml-12'></div>
-                    <div className='pl-6 md:pl-12'>
+                <div className='flex w-full'>
+                    <div className='w-0.5 bg-neutral-gray-light md:ml-12'></div>
+                    <div className='pl-6 md:pl-12 max-w-full flex-grow'>
                         {comment.replies?.map((reply) =>
                         (<Comment
                             key={reply.id}
