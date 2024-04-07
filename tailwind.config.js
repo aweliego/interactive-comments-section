@@ -31,12 +31,13 @@ export default {
       },
       gridTemplateColumns: {
         desktop: 'min-content 1fr min-content',
-        desktop_add: '50px 5fr 1fr'
+        desktop_add: '50px 5fr 1fr',
+        mobile: 'min-content 3fr min-content'
       },
       gridTemplateRows: {
-        mobile: 'repeat(3, min-content)',
+        desktop: 'min-content min-content',
         mobile_add: 'repeat(2, min-content)',
-        desktop: 'min-content min-content'
+        mobile: 'repeat(3, min-content)',
       },
       maxWidth: {
         default: '50rem'
