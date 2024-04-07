@@ -53,6 +53,16 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList
                     >  Reply</p>
                 </div>
             </article>
+            <div className={`${isAReply ? 'block' : 'hidden'}`}>
+                <NewCommentForm
+                    image={image}
+                    username={username}
+                    action={action}
+                    followUpAction={handleHideNewCommentForm}
+                    commentList={commentList}
+                    comment={comment}
+                    onReply={onReply} />
+            </div>
             {comment.replies?.length !== 0 ? (
                 <div className='flex w-full'>
                     <div className='w-0.5 bg-neutral-gray-light md:ml-12'></div>
@@ -67,16 +77,6 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList
                         />))}
                     </div>
                 </div>) : null}
-            <div className={`${isAReply ? 'block' : 'hidden'}`}>
-                <NewCommentForm
-                    image={image}
-                    username={username}
-                    action={action}
-                    followUpAction={handleHideNewCommentForm}
-                    commentList={commentList}
-                    comment={comment}
-                    onReply={onReply} />
-            </div>
         </>
     )
 }
