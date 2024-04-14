@@ -3,6 +3,8 @@ import { useState } from 'react'
 import IconPlus from '../../../public/images/icon-plus.svg'
 import IconMinus from '../../../public/images/icon-minus.svg'
 import IconReply from '../../../public/images/icon-reply.svg'
+import IconEdit from '../../../public/images/icon-edit.svg'
+import IconDelete from '../../../public/images/icon-delete.svg'
 
 import { CommentInterface } from '../../types'
 import NewCommentForm from '../NewCommentForm'
@@ -11,6 +13,7 @@ import NewCommentForm from '../NewCommentForm'
 const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList, onReply }) => {
     const { content, createdAt, score, user, replyingTo } = comment
     const { image, username } = currentUser
+    const isCurrentUser = comment?.user?.username === currentUser?.username
 
     const [isAReply, setIsAReply] = useState<boolean>(false)
     const [action, setAction] = useState<string>('create')
@@ -46,11 +49,25 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList
                     <img src={IconMinus} className='text-neutral-gray-light hover:cursor-pointer w-3' />
                 </div>
                 {/* CTA */}
-                <div className='text-primary-blue-moderate flex items-center gap-2 mr-8 md:mr-4 hover:cursor-pointer row-start-3 row-span-1 md:row-start-1 md:row-span-1 col-start-3 col-span-1'>
-                    <img src={IconReply} alt="" className='w-4' />
-                    <p className="hover:text-primary-blue-light font-medium"
-                        onClick={handleClickReply}
-                    >  Reply</p>
+                <div className='flex items-center gap-2 mr-4 md:mr-0 hover:cursor-pointer row-start-3 row-span-1 md:row-start-1 md:row-span-1 col-start-3 col-span-1 justify-end'>
+                    {isCurrentUser ?
+                        (<>
+                            <img src={IconDelete} alt="delete-icon" className='w-4' />
+                            <p className="text-primary-red-soft hover:text-primary-red-pale font-medium mr-4"
+                                onClick={() => null}
+                            >  Delete</p>
+                            <img src={IconEdit} alt="edit-icon" className='w-4 hover:fill-primary-blue-light' />
+                            <p className=" text-primary-blue-moderate hover:text-primary-blue-light font-medium"
+                                onClick={() => null}
+                            >  Edit</p>
+                        </>
+                        ) :
+                        (<>
+                            <img src={IconReply} alt="reply-icon" className='w-4' />
+                            <p className=" text-primary-blue-moderate hover:text-primary-blue-light font-medium"
+                                onClick={handleClickReply}
+                            >  Reply</p>
+                        </>)}
                 </div>
             </article>
             <div className={`${isAReply ? 'flex' : 'hidden'} w-full`}>
