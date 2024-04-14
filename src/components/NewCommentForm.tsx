@@ -14,6 +14,7 @@ const NewCommentForm: React.FC<CurrentUserMeta> = ({ image, username, action, fo
             createdAt: 'now',
             score: 0,
             user: { image, username },
+            ...(onReply && { replyingTo: `${comment?.user?.username}` }),
             replies: []
         }
         onNewTopLevelComment && onNewTopLevelComment([...commentList as MessageMeta[], newComment])
