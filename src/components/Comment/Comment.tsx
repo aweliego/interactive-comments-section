@@ -9,6 +9,7 @@ import IconDelete from '../../../public/images/icon-delete.svg'
 import { CommentInterface } from '../../types'
 import NewCommentForm from '../NewCommentForm'
 import { autoResize } from '../../utils'
+import SubmitButton from '../SubmitButton'
 
 
 const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList, onReply, onEdit }) => {
@@ -32,7 +33,7 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList
 
     const editComment = (): void => {
         setIsEditing(true)
-        setAction('update')
+        setAction('edit')
     }
 
     const handleUpdate = (): void => {
@@ -60,12 +61,10 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList
                             value={commentValue}
                         >
                         </textarea>
-                        <button className={`px-8 py-3 mt-8 rounded  bg-primary-blue-moderate text-white justify-self-end row-start-3 col-start-3 md:row-start-4 md:row-span-1 md:col-start-3 md:col-span-1`}
-                            type='submit'
-                            disabled={false}
-                            onClick={handleUpdate}>
-                            UPDATE
-                        </button>
+                        <SubmitButton
+                            action={action}
+                            onClick={handleUpdate}
+                        />
                     </>
                 ) : (<div className='text-neutral-blue-grayish px-2 md:px-0 py-4 row-start-2 row-span-1 col-start-1 col-span-3 md:col-start-2 md:col-span-2 w-full'>
                     {replyingTo && (<span className="text-primary-blue-moderate font-medium">@{replyingTo} </span>

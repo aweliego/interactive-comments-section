@@ -2,6 +2,8 @@ import { MessageMeta, CurrentUserMeta } from '../types'
 
 import { useState } from 'react'
 
+import SubmitButton from './SubmitButton'
+
 const NewCommentForm: React.FC<CurrentUserMeta> = ({ image, username, action, followUpAction, commentList, comment, onNewTopLevelComment, onReply }) => {
     const [disabled, setDisabled] = useState<boolean>(true)
     const [newCommentContent, setNewCommentContent] = useState<string>('')
@@ -31,15 +33,6 @@ const NewCommentForm: React.FC<CurrentUserMeta> = ({ image, username, action, fo
         }
     }
 
-    const updateButtonText = (action: string): string => {
-        switch (action) {
-            case 'create': return 'SEND'
-            case 'reply': return 'REPLY'
-            case 'edit': return 'UPDATE'
-            default: return 'SEND'
-        }
-    }
-
     return (
         <form className='bg-neutral-white rounded grid items-center gap-y-4 md:gap-y-0 md:gap-x-4 grid-rows-mobile_add md:grid-rows-desktop md:grid-cols-desktop_add w-full p-4 md:py-8 my-2'>
             <textarea
@@ -53,12 +46,11 @@ const NewCommentForm: React.FC<CurrentUserMeta> = ({ image, username, action, fo
                 src={image?.png}
                 alt="user-icon"
                 className='w-8 justify-self-start md:justify-self-end row-start-2 col-start-1 col-span-1 md:row-start-1 md:row-span-1' />
-            <button className={`px-8 py-3 rounded  bg-primary-blue-moderate text-white ${disabled ? 'cursor-not-allowed opacity-70' : ' opacity-100 hover:bg-primary-blue-light cursor-pointer'} justify-self-end row-start-2 col-start-3 md:row-start-1 md:row-span-1 md:col-start-3 md:col-span-1`}
-                type='submit'
+            <SubmitButton
+                action={action}
                 disabled={disabled}
-                onClick={handleSubmit}>
-                {action && updateButtonText(action)}
-            </button>
+                onClick={handleSubmit}
+            />
         </form>
     )
 }
