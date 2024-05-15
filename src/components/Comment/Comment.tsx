@@ -8,15 +8,18 @@ import IconDelete from '../../../public/images/icon-delete.svg'
 
 import { CommentInterface } from '../../types'
 import NewCommentForm from '../NewCommentForm'
+import { autoResize } from '../../utils'
 
 
-const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList, onReply }) => {
+const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList, onReply, onEdit }) => {
     const { content, createdAt, score, user, replyingTo } = comment
     const { image, username } = currentUser
-    const isCurrentUser = comment?.user?.username === currentUser?.username
-
+    const [commentValue, setCommentValue] = useState<string>(content)
+    const [isEditing, setIsEditing] = useState<boolean>(false)
     const [isAReply, setIsAReply] = useState<boolean>(false)
     const [action, setAction] = useState<string>('create')
+    const isCurrentUser: boolean = comment?.user?.username === currentUser?.username
+    const isMobile: boolean = window.innerWidth < 600
 
     const handleClickReply = (): void => {
         setIsAReply(true)
@@ -27,9 +30,20 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList
         setIsAReply(false)
     }
 
+    const editComment = (): void => {
+        setIsEditing(true)
+        setAction('update')
+    }
+
+    const handleUpdate = (): void => {
+        onEdit(commentList)
+        setIsEditing(false)
+    }
+
+
     return (
         <>
-            <article className="bg-neutral-white rounded grid grid-rows-mobile grid-cols-mobile md:grid-rows-desktop md:grid-cols-desktop w-full p-4 md:p-8 my-2">
+            <article className={`bg-neutral-white rounded grid ${isEditing ? 'grid-rows-mobile_add' : 'grid-rows-mobile grid-cols-mobile'}  md:grid-rows-desktop md:grid-cols-desktop w-full p-4 md:p-8 my-2`}>
                 {/* Meta */}
                 <div className='flex flex-grow-1 w-full gap-4 items-center row-start-1 row-span-1 col-start-1 col-span-3 md:col-start-2 md:col-span-1'>
                     <img src={user?.image?.png} alt="user-icon" className='w-8' />
@@ -37,38 +51,54 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList
                     <p className='text-neutral-blue-grayish'>{createdAt}</p>
                 </div>
                 {/* Content */}
-                <div className='text-neutral-blue-grayish px-2 md:px-0 py-4 row-start-2 row-span-1 col-start-1 col-span-3 md:col-start-2 md:col-span-2 w-full'>
+                {isEditing ? (
+                    <>
+                        <textarea
+                            className='col-start-1 col-span-3 row-start-2 md:row-span-2 md:col-start-2 md:col-span-2 p-2 my-4 border-2 border-neutral-gray-light outline-primary-blue-moderate h-full resize-none overflow-hidden '
+                            rows={isMobile ? 4 : 3}
+                            onChange={(e) => { setCommentValue(e.target.value); autoResize(e) }}
+                            value={commentValue}
+                        >
+                        </textarea>
+                        <button className={`px-8 py-3 mt-8 rounded  bg-primary-blue-moderate text-white justify-self-end row-start-3 col-start-3 md:row-start-4 md:row-span-1 md:col-start-3 md:col-span-1`}
+                            type='submit'
+                            disabled={false}
+                            onClick={handleUpdate}>
+                            UPDATE
+                        </button>
+                    </>
+                ) : (<div className='text-neutral-blue-grayish px-2 md:px-0 py-4 row-start-2 row-span-1 col-start-1 col-span-3 md:col-start-2 md:col-span-2 w-full'>
                     {replyingTo && (<span className="text-primary-blue-moderate font-medium">@{replyingTo} </span>
                     )}
-                    <span>{content}</span>
-                </div>
+                    <span>{commentValue}</span>
+                </div>)}
+
                 {/* Score */}
-                <div className="bg-neutral-gray-extra-light rounded flex flex-row items-center md:py-4 px-3 md:px-0 md:mr-6 md:flex-col h-max row-start-3 row-span-1 md:row-start-1 md:row-span-2 col-start-1 col-span-1 min-w-max max-w-max">
+                <div className={`${isEditing && isMobile ? 'hidden' : ' bg-neutral-gray-extra-light rounded flex flex-row items-center md:py-4 px-3 md:px-0 md:mr-6 md:flex-col h-max row-start-3 row-span-1 md:row-start-1 md:row-span-2 col-start-1 col-span-1 min-w-max max-w-max'}`}>
                     <img src={IconPlus} className='text-neutral-gray-light hover:cursor-pointer w-3' />
                     <p className="text-primary-blue-moderate font-medium px-4 py-2 md:py-4">{score}</p>
                     <img src={IconMinus} className='text-neutral-gray-light hover:cursor-pointer w-3' />
                 </div>
+
                 {/* CTA */}
-                <div className='flex items-center gap-2 mr-4 md:mr-0 hover:cursor-pointer row-start-3 row-span-1 md:row-start-1 md:row-span-1 col-start-3 col-span-1 justify-end'>
-                    {isCurrentUser ?
-                        (<>
-                            <img src={IconDelete} alt="delete-icon" className='w-4' />
-                            <p className="text-primary-red-soft hover:text-primary-red-pale font-medium mr-4"
-                                onClick={() => null}
-                            >  Delete</p>
-                            <img src={IconEdit} alt="edit-icon" className='w-4 hover:fill-primary-blue-light' />
-                            <p className=" text-primary-blue-moderate hover:text-primary-blue-light font-medium"
-                                onClick={() => null}
-                            >  Edit</p>
-                        </>
-                        ) :
-                        (<>
-                            <img src={IconReply} alt="reply-icon" className='w-4' />
-                            <p className=" text-primary-blue-moderate hover:text-primary-blue-light font-medium"
-                                onClick={handleClickReply}
-                            >  Reply</p>
-                        </>)}
-                </div>
+                {isCurrentUser ?
+                    (<div className={`${isEditing && isMobile ? 'hidden' : 'flex items-center gap-2 mr-4 md:mr-0 hover:cursor-pointer row-start-3 row-span-1 md:row-start-1 md:row-span-1 col-start-3 col-span-1 justify-end'}`}>
+                        <img src={IconDelete} alt="delete-icon" className='w-4' />
+                        <p className="text-primary-red-soft hover:text-primary-red-pale font-medium mr-4"
+                            onClick={() => null}
+                        >  Delete</p>
+                        <img src={IconEdit} alt="edit-icon" className='w-4 hover:fill-primary-blue-light' />
+                        <p className=" text-primary-blue-moderate hover:text-primary-blue-light font-medium"
+                            onClick={editComment}
+                        >  Edit</p>
+                    </div>
+                    ) : !isEditing &&
+                    (<div className='flex items-center gap-2 mr-4 md:mr-0 hover:cursor-pointer row-start-3 row-span-1 md:row-start-1 md:row-span-1 col-start-3 col-span-1 justify-end'>
+                        <img src={IconReply} alt="reply-icon" className='w-4' />
+                        <p className=" text-primary-blue-moderate hover:text-primary-blue-light font-medium"
+                            onClick={handleClickReply}
+                        >  Reply</p>
+                    </div>)}
             </article>
             <div className={`${isAReply ? 'flex' : 'hidden'} w-full`}>
                 <NewCommentForm
@@ -91,6 +121,7 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList
                             currentUser={currentUser}
                             commentList={commentList}
                             onReply={onReply}
+                            onEdit={onEdit}
                         />))}
                     </div>
                 </div>) : null}

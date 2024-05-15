@@ -10,7 +10,7 @@ const App = () => {
 
   const [commentList, setCommentList] = useState<MessageMeta[]>(comments)
 
-  const handleNewTopLevelComment = (list: MessageMeta[]): void => {
+  const updateCommentList = (list: MessageMeta[]): void => {
     setCommentList(list)
   }
 
@@ -63,6 +63,7 @@ const App = () => {
             currentUser={currentUser}
             commentList={commentList}
             onReply={handleReply}
+            onEdit={updateCommentList}
           />
         </>
       )}
@@ -70,7 +71,7 @@ const App = () => {
         {...currentUser}
         action={'create'}
         commentList={commentList}
-        onNewTopLevelComment={handleNewTopLevelComment}
+        onNewTopLevelComment={updateCommentList}
       />
     </main>
   )

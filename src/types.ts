@@ -33,4 +33,5 @@ export interface CommentInterface {
     currentUser: CurrentUserMeta
     commentList: MessageMeta[]
     onReply: (parentComment: MessageMeta, reply: MessageMeta) => void
+    onEdit: (list: MessageMeta[]) => void
 }
