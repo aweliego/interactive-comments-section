@@ -54,14 +54,26 @@ const App = () => {
   }
 
   /**
-   * Removes a deleted comment from the comment list
+   * Removes a deleted comment or reply from the comment list
    * 
    * @param commentedId - the id of the comment to be deleted
+   * @param deletedPost (optional) - if the comment being deleted is a reply, this argument is needed to find it among the replies of the top level comment
    * @returns undefined
    */
-  const handleDelete = (commentId: number) => {
-    setCommentList(prevComments => prevComments.filter(prevComment => prevComment.id !== commentId))
+  const handleDelete = (commentId: number, deletedPost?: MessageMeta) => {
+    if (deletedPost) {
+      const topLevelComment = findTopLevelComment(deletedPost, commentList)
+      if (topLevelComment && topLevelComment.replies) {
+        const deletedPostIdx = topLevelComment?.replies?.indexOf(deletedPost)
+        deletedPostIdx !== -1 && topLevelComment?.replies?.splice(deletedPostIdx, 1)
+        setCommentList([...commentList])
+      }
+
+    } else {
+      setCommentList(prevComments => prevComments.filter(prevComment => prevComment.id !== commentId))
+    }
   }
+
 
   return (
     <main className='flex flex-col items-center justify-center max-w-default mx-auto p-10'>

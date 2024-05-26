@@ -34,5 +34,5 @@ export interface CommentInterface {
     commentList: MessageMeta[]
     onReply: (parentComment: MessageMeta, reply: MessageMeta) => void
     onEdit: (list: MessageMeta[]) => void
-    onDelete: (commentId: number) => void
+    onDelete: (commentId: number, deletedPost?: MessageMeta) => void
 }
