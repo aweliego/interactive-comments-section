@@ -53,6 +53,16 @@ const App = () => {
     setCommentList([...commentList])
   }
 
+  /**
+   * Removes a deleted comment from the comment list
+   * 
+   * @param commentedId - the id of the comment to be deleted
+   * @returns undefined
+   */
+  const handleDelete = (commentId: number) => {
+    setCommentList(prevComments => prevComments.filter(prevComment => prevComment.id !== commentId))
+  }
+
   return (
     <main className='flex flex-col items-center justify-center max-w-default mx-auto p-10'>
       {commentList.map((comment) =>
@@ -64,6 +74,7 @@ const App = () => {
             commentList={commentList}
             onReply={handleReply}
             onEdit={updateCommentList}
+            onDelete={handleDelete}
           />
         </>
       )}

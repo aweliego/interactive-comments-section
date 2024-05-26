@@ -12,8 +12,8 @@ import { autoResize } from '../../utils'
 import SubmitButton from '../SubmitButton'
 
 
-const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList, onReply, onEdit }) => {
-    const { content, createdAt, score, user, replyingTo } = comment
+const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList, onReply, onEdit, onDelete }) => {
+    const { id, content, createdAt, score, user, replyingTo } = comment
     const { image, username } = currentUser
     const [commentValue, setCommentValue] = useState<string>(content)
     const [isEditing, setIsEditing] = useState<boolean>(false)
@@ -41,6 +41,9 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList
         setIsEditing(false)
     }
 
+    const deleteComment = (id: number): void => {
+        onDelete(id)
+    }
 
     return (
         <>
@@ -84,7 +87,7 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList
                     (<div className={`${isEditing && isMobile ? 'hidden' : 'flex items-center gap-2 mr-4 md:mr-0 hover:cursor-pointer row-start-3 row-span-1 md:row-start-1 md:row-span-1 col-start-3 col-span-1 justify-end'}`}>
                         <img src={IconDelete} alt="delete-icon" className='w-4' />
                         <p className="text-primary-red-soft hover:text-primary-red-pale font-medium mr-4"
-                            onClick={() => null}
+                            onClick={() => deleteComment(id)}
                         >  Delete</p>
                         <img src={IconEdit} alt="edit-icon" className='w-4 hover:fill-primary-blue-light' />
                         <p className=" text-primary-blue-moderate hover:text-primary-blue-light font-medium"
@@ -121,6 +124,7 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList
                             commentList={commentList}
                             onReply={onReply}
                             onEdit={onEdit}
+                            onDelete={onDelete}
                         />))}
                     </div>
                 </div>) : null}
