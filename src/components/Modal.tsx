@@ -30,7 +30,7 @@ const Modal: React.FC<ModalProps> = ({
 
     return (
         <dialog ref={modalRef}
-            className={'p-4 sm:p-6 rounded min-w-24 max-w-sm cursor-default'}>
+            className={'p-4 sm:p-6 rounded-lg min-w-20 max-w-xs sm:max-w-sm cursor-default'}>
             {children}
         </dialog>
     )
