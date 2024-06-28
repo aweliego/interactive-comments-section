@@ -3,10 +3,24 @@ import { render, screen, within } from '@testing-library/react'
 import userEvent, { UserEvent } from '@testing-library/user-event'
 import App from '../../../App'
 
-// Mock the HTMLDialogElement methods
+// Check if the methods are not defined and define them if necessary
 beforeAll(() => {
-  HTMLDialogElement.prototype.showModal = vi.fn()
-  HTMLDialogElement.prototype.close = vi.fn()
+  if (!HTMLDialogElement.prototype.showModal) {
+    HTMLDialogElement.prototype.showModal = vi.fn()
+  } else {
+    vi.spyOn(HTMLDialogElement.prototype, 'showModal').mockImplementation(() => { })
+  }
+
+  if (!HTMLDialogElement.prototype.close) {
+    HTMLDialogElement.prototype.close = vi.fn()
+  } else {
+    vi.spyOn(HTMLDialogElement.prototype, 'close').mockImplementation(() => { })
+  }
+})
+
+// Ensure the mocks are correctly reset before each test
+beforeEach(() => {
+  vi.clearAllMocks()
 })
 
 const MockApp = () => {
@@ -22,7 +36,7 @@ describe('Comment component', () => {
   beforeEach(() => {
     user = userEvent.setup()
     render(<MockApp />)
-    commentCurrentUser = screen.getAllByText(/juliusomo/i)[0].closest('article')
+    commentCurrentUser = screen.getByText(/juliusomo/i).closest('article')
     expect(commentCurrentUser).toBeInTheDocument()
     commentOtherUser = screen.getByText(/amyrobson/i).closest('article')
     expect(commentOtherUser).toBeInTheDocument()
@@ -63,10 +77,10 @@ describe('Comment component', () => {
     })
 
     it('should disable the Send button if the comment content is blank', async () => {
-      const textbox = screen.getAllByPlaceholderText(/add a comment/i)[0]
-      const sendBtn = screen.getAllByRole('button', {
+      const textbox = screen.getByPlaceholderText(/add a comment/i)
+      const sendBtn = screen.getByRole('button', {
         name: /send/i
-      })[0]
+      })
       user.type(textbox, '  ')
       expect(sendBtn).toBeDisabled()
     })
@@ -75,7 +89,7 @@ describe('Comment component', () => {
   describe('when a user replies to a comment', () => {
     it('should render a new reply after clicking the Reply button', async () => {
       const replyActionBtn = screen.getAllByText(/reply/i)[1]
-      const textbox = screen.getAllByPlaceholderText(/add a comment/i)[1]
+      const textbox = screen.getByPlaceholderText(/add a comment/i)
       await user.click(replyActionBtn)
       await user.type(textbox, 'Replying to a comment!')
       const replySubmitBtn = await screen.findByRole('button', {
@@ -159,15 +173,6 @@ describe('Comment component', () => {
         }
       })
 
-      it('should delete the comment when the "Yes, delete" button is clicked', async () => {
-        if (modal) {
-          const confirmDeleteBtn = within(modal).getByText(/^Yes, delete$/i)
-          expect(confirmDeleteBtn).toBeInTheDocument()
-          await user.click(confirmDeleteBtn)
-          expect(commentCurrentUser).not.toBeInTheDocument()
-        }
-      })
-
       it('should close the modal without deleting when the "No, cancel" button is clicked', async () => {
         if (modal) {
           const cancelBtn = within(modal).getByText(/^No, cancel$/i)
@@ -175,6 +180,15 @@ describe('Comment component', () => {
           await user.click(cancelBtn)
           expect(HTMLDialogElement.prototype.close).toHaveBeenCalled()
           expect(commentCurrentUser).toBeInTheDocument()
+        }
+      })
+
+      it('should delete the comment when the "Yes, delete" button is clicked', async () => {
+        if (modal) {
+          const confirmDeleteBtn = within(modal).getByText(/^Yes, delete$/i)
+          expect(confirmDeleteBtn).toBeInTheDocument()
+          await user.click(confirmDeleteBtn)
+          expect(commentCurrentUser).not.toBeInTheDocument()
         }
       })
     })
