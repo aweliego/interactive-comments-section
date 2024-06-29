@@ -99,14 +99,14 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList
                 <div className={`${isEditing && isMobile ? 'hidden' : ' bg-neutral-gray-extra-light rounded flex flex-row items-center md:py-4 px-3 md:px-0 md:mr-6 md:flex-col h-max row-start-3 row-span-1 md:row-start-1 md:row-span-2 col-start-1 col-span-1 min-w-max max-w-max'}`}>
                     <img
                         src={IconPlus}
-                        className='text-neutral-gray-light hover:cursor-pointer w-3'
-                        onClick={upvoteComment}
+                        className={`text-neutral-gray-light ${isCurrentUser ? 'hover:cursor-default' : 'hover:cursor-pointer'} w-3`}
+                        onClick={isCurrentUser ? undefined : upvoteComment}
                     />
                     <p className="text-primary-blue-moderate font-medium py-2 md:py-4 w-10 text-center">{commentScore}</p>
                     <img
                         src={IconMinus}
-                        className='text-neutral-gray-light hover:cursor-pointer w-3'
-                        onClick={downvoteComment}
+                        className={`text-neutral-gray-light ${isCurrentUser ? 'hover:cursor-default' : 'hover:cursor-pointer'} w-3`}
+                        onClick={isCurrentUser ? undefined : downvoteComment}
                     />
                 </div>
 
