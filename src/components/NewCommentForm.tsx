@@ -1,6 +1,7 @@
 import { MessageMeta, CurrentUserMeta } from '../types'
 
 import { useState } from 'react'
+import moment from 'moment'
 
 import SubmitButton from './SubmitButton'
 
@@ -13,7 +14,7 @@ const NewCommentForm: React.FC<CurrentUserMeta> = ({ image, username, action, fo
         const newComment = {
             id: Date.now(),
             content: newCommentContent,
-            createdAt: 'now',
+            createdAt: moment(moment.now()).fromNow(),
             score: 0,
             user: { image, username },
             ...(onReply && { replyingTo: `${comment?.user?.username}` }),
