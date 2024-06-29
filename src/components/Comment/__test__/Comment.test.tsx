@@ -101,6 +101,54 @@ describe('Comment component', () => {
     })
   })
 
+  describe('when a user updates the score of a comment', () => {
+    let score: HTMLElement | null
+    let upvoteIcon: HTMLElement | null
+    let downvoteIcon: HTMLElement | null
+
+    it('should not allow user to update the score of their own comment', () => {
+      if (commentCurrentUser && upvoteIcon && downvoteIcon) {
+        score = within(commentCurrentUser).getByText('2')
+        expect(score).toBeInTheDocument()
+        upvoteIcon = within(commentCurrentUser).getByAltText(/upvote/i)
+        expect(upvoteIcon).toBeInTheDocument()
+        downvoteIcon = within(commentCurrentUser).getByAltText(/downvote/i)
+        expect(downvoteIcon).toBeInTheDocument()
+
+        user.click(upvoteIcon)
+        expect(score?.textContent).toBe('2')
+        user.click(downvoteIcon)
+        expect(score?.textContent).toBe('2')
+      }
+    })
+
+    describe('Upvote and downvote functions', () => {
+      if (commentOtherUser) {
+        score = within(commentOtherUser).getByText('12')
+        expect(score).toBeInTheDocument()
+        upvoteIcon = within(commentOtherUser).getByAltText(/upvote/i)
+        expect(upvoteIcon).toBeInTheDocument()
+        downvoteIcon = within(commentOtherUser).getByAltText(/downvote/i)
+        expect(downvoteIcon).toBeInTheDocument()
+      }
+
+      it('should increase the score by 1 if the user clicks the + button on another comment', () => {
+        if (upvoteIcon) {
+          user.click(upvoteIcon)
+          expect(score?.textContent).toBe('13')
+        }
+      })
+      it('should decrease the score by 1 if the user clicks the - button on another comment', () => {
+        if (downvoteIcon) {
+          user.click(downvoteIcon)
+          expect(score?.textContent).toBe('11')
+        }
+      })
+    })
+
+
+  })
+
   describe('when a user edits their comment', () => {
     let editActionBtn: HTMLElement | null
     beforeEach(() => {
@@ -193,5 +241,9 @@ describe('Comment component', () => {
       })
     })
   })
+
+
+
+
 })
 
