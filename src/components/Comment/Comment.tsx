@@ -18,6 +18,7 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList
     const { id, content, createdAt, score, user, replyingTo } = comment
     const { image, username } = currentUser
     const [commentValue, setCommentValue] = useState<string>(content)
+    const [commentScore, setCommentScore] = useState<number>(score ? score : 0)
     const [isEditing, setIsEditing] = useState<boolean>(false)
     const [isCommentFormOpen, setIsCommentFormOpen] = useState<boolean>(false)
     const [isDeleteModalOpen, setDeleteModalOpen] = useState<boolean>(false)
@@ -54,6 +55,14 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList
         setDeleteModalOpen(false)
     }
 
+    const handleIncreaseScore = (): void => {
+        setCommentScore(prevScore => prevScore + 1)
+    }
+
+    const handleDecreaseScore = (): void => {
+        setCommentScore(prevScore => prevScore - 1)
+    }
+
     return (
         <>
             <article className={`bg-neutral-white rounded grid ${isEditing ? 'grid-rows-mobile_add' : 'grid-rows-mobile grid-cols-mobile'}  md:grid-rows-desktop md:grid-cols-desktop w-full p-4 md:p-8 my-2`}>
@@ -86,9 +95,17 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList
 
                 {/* Score */}
                 <div className={`${isEditing && isMobile ? 'hidden' : ' bg-neutral-gray-extra-light rounded flex flex-row items-center md:py-4 px-3 md:px-0 md:mr-6 md:flex-col h-max row-start-3 row-span-1 md:row-start-1 md:row-span-2 col-start-1 col-span-1 min-w-max max-w-max'}`}>
-                    <img src={IconPlus} className='text-neutral-gray-light hover:cursor-pointer w-3' />
-                    <p className="text-primary-blue-moderate font-medium px-4 py-2 md:py-4">{score}</p>
-                    <img src={IconMinus} className='text-neutral-gray-light hover:cursor-pointer w-3' />
+                    <img
+                        src={IconPlus}
+                        className='text-neutral-gray-light hover:cursor-pointer w-3'
+                        onClick={handleIncreaseScore}
+                    />
+                    <p className="text-primary-blue-moderate font-medium py-2 md:py-4 w-10 text-center">{commentScore}</p>
+                    <img
+                        src={IconMinus}
+                        className='text-neutral-gray-light hover:cursor-pointer w-3'
+                        onClick={handleDecreaseScore}
+                    />
                 </div>
 
                 {/* CTA */}
