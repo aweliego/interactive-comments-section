@@ -14,7 +14,7 @@ import { CommentInterface } from '../../types'
 import { autoResize } from '../../utils'
 
 
-const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList, onReply, onEdit, onDelete }) => {
+const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList, onReply, onEdit, onDelete, onScoreChange }) => {
     const { id, content, createdAt, score, user, replyingTo } = comment
     const { image, username } = currentUser
     const [commentValue, setCommentValue] = useState<string>(content)
@@ -55,12 +55,14 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList
         setDeleteModalOpen(false)
     }
 
-    const handleIncreaseScore = (): void => {
+    const upvoteComment = (): void => {
         setCommentScore(prevScore => prevScore + 1)
+        onScoreChange(id, +1)
     }
 
-    const handleDecreaseScore = (): void => {
+    const downvoteComment = (): void => {
         setCommentScore(prevScore => prevScore - 1)
+        onScoreChange(id, -1)
     }
 
     return (
@@ -98,13 +100,13 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList
                     <img
                         src={IconPlus}
                         className='text-neutral-gray-light hover:cursor-pointer w-3'
-                        onClick={handleIncreaseScore}
+                        onClick={upvoteComment}
                     />
                     <p className="text-primary-blue-moderate font-medium py-2 md:py-4 w-10 text-center">{commentScore}</p>
                     <img
                         src={IconMinus}
                         className='text-neutral-gray-light hover:cursor-pointer w-3'
-                        onClick={handleDecreaseScore}
+                        onClick={downvoteComment}
                     />
                 </div>
 
@@ -160,6 +162,7 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList
                             onReply={onReply}
                             onEdit={onEdit}
                             onDelete={onDelete}
+                            onScoreChange={onScoreChange}
                         />))}
                     </div>
                 </div>) : null}

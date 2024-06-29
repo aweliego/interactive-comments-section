@@ -10,8 +10,10 @@ const App = () => {
 
   const [commentList, setCommentList] = useState<MessageMeta[]>(comments)
 
+  const sortCommentsByScore = (comments: MessageMeta[]) => comments.sort((a, b) => b.score - a.score)
+
   const updateCommentList = (list: MessageMeta[]): void => {
-    setCommentList(list)
+    setCommentList(sortCommentsByScore(list))
   }
 
   /**
@@ -68,12 +70,20 @@ const App = () => {
         deletedPostIdx !== -1 && topLevelComment?.replies?.splice(deletedPostIdx, 1)
         setCommentList([...commentList])
       }
-
     } else {
       setCommentList(prevComments => prevComments.filter(prevComment => prevComment.id !== commentId))
     }
   }
 
+  const handleScoreChange = (id: number, change: number) => {
+    const updatedComments = commentList.map(comment => {
+      if (comment.id === id) {
+        return { ...comment, score: comment.score + change }
+      }
+      return comment
+    })
+    updateCommentList(updatedComments)
+  }
 
   return (
     <main className='flex flex-col items-center justify-center max-w-default mx-auto p-10'>
@@ -87,6 +97,7 @@ const App = () => {
             onReply={handleReply}
             onEdit={updateCommentList}
             onDelete={handleDelete}
+            onScoreChange={handleScoreChange}
           />
         </>
       )}
