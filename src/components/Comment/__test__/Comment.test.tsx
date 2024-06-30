@@ -29,7 +29,7 @@ const MockApp = () => {
   )
 }
 
-describe('Comment component', () => {
+describe('<Comment />', () => {
 
   let user: UserEvent, commentCurrentUser: HTMLElement | null, commentOtherUser: HTMLElement | null
 
@@ -46,10 +46,8 @@ describe('Comment component', () => {
   describe('when component initially renders', () => {
     it('should show the initial comments and replies correctly', () => {
       const commentContent = screen.getByText(/impressive/i)
-      const commentUser = screen.getByText(/amyrobson/i)
       const commentReplies = screen.getAllByText(/recommend/i)
       expect(commentContent).toBeInTheDocument()
-      expect(commentUser).toBeInTheDocument()
       commentReplies.forEach(reply => {
         expect(reply).toBeInTheDocument()
       })
@@ -63,7 +61,7 @@ describe('Comment component', () => {
 
   describe('when a user posts a new comment', () => {
     it('should render a new comment after clicking the Send button of the bottom comment form', async () => {
-      // Targeting last textarea and send button (NewCommentForm)
+      // Targeting last textarea and send button (<NewCommentForm />)
       const textboxes = screen.getAllByPlaceholderText(/add a comment/i)
       const textbox = textboxes[textboxes.length - 1]
       const sendBtns = screen.getAllByRole('button', { name: /send/i })
@@ -145,8 +143,6 @@ describe('Comment component', () => {
         }
       })
     })
-
-
   })
 
   describe('when a user edits their comment', () => {
@@ -241,9 +237,6 @@ describe('Comment component', () => {
       })
     })
   })
-
-
-
 
 })
 

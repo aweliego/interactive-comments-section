@@ -7,10 +7,8 @@ import { MessageMeta } from './types'
 const App = () => {
   const { comments } = data
   const { currentUser } = data
-
-  const [commentList, setCommentList] = useState<MessageMeta[]>(comments)
-
   const sortCommentsByScore = (comments: MessageMeta[]) => comments.sort((a, b) => b.score - a.score)
+  const [commentList, setCommentList] = useState<MessageMeta[]>(sortCommentsByScore(comments))
 
   const updateCommentList = (list: MessageMeta[]): void => {
     setCommentList(sortCommentsByScore(list))
