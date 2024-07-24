@@ -1,17 +1,28 @@
 import data from './data'
 import Comment from './components/Comment/Comment'
 import NewCommentForm from './components/NewCommentForm'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { MessageMeta } from './types'
 
 const App = () => {
-  const { comments } = data
   const { currentUser } = data
+
+  const getCommentsFromStorage = () => {
+    const savedComments = localStorage.getItem('comments')
+    return savedComments ? JSON.parse(savedComments) : []
+  }
+
   const sortCommentsByScore = (comments: MessageMeta[]) => comments.sort((a, b) => b.score - a.score)
-  const [commentList, setCommentList] = useState<MessageMeta[]>(sortCommentsByScore(comments))
+
+  const [commentList, setCommentList] = useState<MessageMeta[]>(sortCommentsByScore(getCommentsFromStorage()))
+
+  useEffect(() => {
+    localStorage.setItem('comments', JSON.stringify(commentList))
+  }, [commentList])
 
   const updateCommentList = (list: MessageMeta[]): void => {
-    setCommentList(sortCommentsByScore(list))
+    const sortedComments = sortCommentsByScore(list)
+    setCommentList(sortedComments)
   }
 
   /**
