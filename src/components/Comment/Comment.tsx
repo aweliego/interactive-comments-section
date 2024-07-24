@@ -42,10 +42,9 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList
     }
 
     const handleUpdate = (): void => {
-        onEdit(commentList)
+        onEdit(id, commentValue)
         setIsEditing(false)
     }
-
 
     const handleOpenConfirmationModal = (): void => {
         setDeleteModalOpen(true)

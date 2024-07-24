@@ -94,6 +94,16 @@ const App = () => {
     updateCommentList(updatedComments)
   }
 
+  const handleEdit = (id: number, newValue: string) => {
+    const updatedComments = commentList.map(comment => {
+      if (comment.id === id) {
+        return { ...comment, content: newValue }
+      }
+      return comment
+    })
+    updateCommentList(updatedComments)
+  }
+
   return (
     <main className='flex flex-col items-center justify-center max-w-default mx-auto p-10'>
       {commentList.map((comment) =>
@@ -104,7 +114,7 @@ const App = () => {
             currentUser={currentUser}
             commentList={commentList}
             onReply={handleReply}
-            onEdit={updateCommentList}
+            onEdit={handleEdit}
             onDelete={handleDelete}
             onScoreChange={handleScoreChange}
           />
