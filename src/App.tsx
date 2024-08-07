@@ -3,6 +3,7 @@ import Comment from './components/Comment/Comment'
 import NewCommentForm from './components/NewCommentForm'
 import { useEffect, useState } from 'react'
 import { MessageMeta } from './types'
+import { updateTimestamps } from './utils'
 
 const App = () => {
   const { currentUser } = data
@@ -19,6 +20,14 @@ const App = () => {
   useEffect(() => {
     localStorage.setItem('comments', JSON.stringify(commentList))
   }, [commentList])
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCommentList(prevComments => updateTimestamps(prevComments))
+    }, 60000) // Update every minute
+
+    return () => clearInterval(intervalId)
+  }, [])
 
   const updateCommentList = (list: MessageMeta[]): void => {
     const sortedComments = sortCommentsByScore(list)

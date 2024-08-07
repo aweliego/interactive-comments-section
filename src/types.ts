@@ -2,6 +2,7 @@ export interface MessageMeta {
     id: number
     content: string
     createdAt: string
+    originalTimestamp?: Date
     score: number
     user: {
         image: {

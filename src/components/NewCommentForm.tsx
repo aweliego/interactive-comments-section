@@ -11,10 +11,13 @@ const NewCommentForm: React.FC<CurrentUserMeta> = ({ image, username, action, fo
 
     const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         e.preventDefault()
+        const timestamp = new Date()
+
         const newComment = {
             id: Date.now(),
             content: newCommentContent,
-            createdAt: moment(moment.now()).fromNow(),
+            createdAt: moment(timestamp).fromNow(),
+            originalTimestamp: timestamp,
             score: 0,
             user: { image, username },
             ...(onReply && { replyingTo: `${comment?.user?.username}` }),
