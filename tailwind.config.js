@@ -48,6 +48,9 @@ export default {
         lg: '1440px'
       },
     },
+    variants: {
+      fill: ['hover', 'focus']
+    },
   },
   plugins: [],
 }

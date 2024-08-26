@@ -2,9 +2,7 @@ import { useState } from 'react'
 
 import IconPlus from '../../../public/images/icon-plus.svg'
 import IconMinus from '../../../public/images/icon-minus.svg'
-import IconReply from '../../../public/images/icon-reply.svg'
-import IconEdit from '../../../public/images/icon-edit.svg'
-import IconDelete from '../../../public/images/icon-delete.svg'
+import { EditIcon, ReplyIcon, DeleteIcon } from '../icons/icons'
 
 import NewCommentForm from '../NewCommentForm'
 import SubmitButton from '../SubmitButton'
@@ -114,10 +112,12 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList
                 {/* CTA */}
                 {isCurrentUser ?
                     (<div className={`${isEditing && isMobile ? 'hidden' : 'flex items-center gap-2 mr-4 md:mr-0 hover:cursor-pointer row-start-3 row-span-1 md:row-start-1 md:row-span-1 col-start-3 col-span-1 justify-end'}`}>
-                        <img src={IconDelete} alt="delete-icon" className='w-4' />
-                        <p className="text-primary-red-soft hover:text-primary-red-pale font-medium mr-4"
-                            onClick={() => handleOpenConfirmationModal()}
-                        >  Delete</p>
+                        <div className='flex items-center fill-primary-red-soft hover:fill-primary-red-pale   text-primary-red-soft hover:text-primary-red-pale  '>
+                            <DeleteIcon />
+                            <p className="font-medium mr-4"
+                                onClick={() => handleOpenConfirmationModal()}
+                            >  Delete</p>
+                        </div>
                         <DeleteConfirmationModal
                             isOpen={isDeleteModalOpen}
                             onDelete={onDelete}
@@ -126,15 +126,17 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList
                             comment={comment}
                             isReply={isReply}
                         />
-                        <img src={IconEdit} alt="edit-icon" className='w-4 hover:fill-primary-blue-light' />
-                        <p className=" text-primary-blue-moderate hover:text-primary-blue-light font-medium"
-                            onClick={editComment}
-                        >  Edit</p>
+                        <div className='flex items-center fill-primary-blue-moderate hover:fill-primary-blue-light  text-primary-blue-moderate hover:text-primary-blue-light '>
+                            <EditIcon />
+                            <p className="font-medium"
+                                onClick={editComment}
+                            >  Edit</p>
+                        </div>
                     </div>
                     ) : !isEditing &&
-                    (<div className='flex items-center gap-2 mr-4 md:mr-0 hover:cursor-pointer row-start-3 row-span-1 md:row-start-1 md:row-span-1 col-start-3 col-span-1 justify-end'>
-                        <img src={IconReply} alt="reply-icon" className='w-4' />
-                        <p className=" text-primary-blue-moderate hover:text-primary-blue-light font-medium"
+                    (<div className='flex items-center gap-2 mr-4 md:mr-0 hover:cursor-pointer row-start-3 row-span-1 md:row-start-1 md:row-span-1 col-start-3 col-span-1 justify-end  fill-primary-blue-moderate hover:fill-primary-blue-light text-primary-blue-moderate hover:text-primary-blue-light '>
+                        <ReplyIcon />
+                        <p className="font-medium"
                             onClick={handleClickReply}
                         >  Reply</p>
                     </div>)}
