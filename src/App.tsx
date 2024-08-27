@@ -93,22 +93,53 @@ const App = () => {
     }
   }
 
-  const handleScoreChange = (id: number, change: number) => {
-    const updatedComments = commentList.map(comment => {
-      if (comment.id === id) {
-        return { ...comment, score: comment.score + change }
+  /**
+   * Updates the score of a comment or reply
+   * 
+   * @param id - the id of the comment whose score is to be updated
+   * @param change - the change made in the score
+   * @param reply (optional) - if the comment whose score is being updated is a reply, this argument is needed to find it among the replies of the top level comment
+   * @returns undefined
+   */
+
+  const handleScoreChange = (id: number, change: number, reply?: MessageMeta) => {
+    let updatedComments: MessageMeta[] = []
+    if (reply) {
+      const topLevelComment = findTopLevelComment(reply, commentList)
+      if (topLevelComment && topLevelComment.replies) {
+        const updatedReplies = topLevelComment.replies.map(reply => {
+          if (reply.id === id) {
+            return { ...reply, score: reply.score + change }
+          }
+          return reply
+        })
+
+        const updatedComment = {
+          ...topLevelComment,
+          replies: updatedReplies
+        }
+
+        updatedComments = commentList.map(comment =>
+          comment.id === topLevelComment.id ? updatedComment : comment
+        )
       }
-      return comment
-    })
+    } else {
+      updatedComments = commentList.map(comment => {
+        if (comment.id === id) {
+          return { ...comment, score: comment.score + change }
+        }
+        return comment
+      })
+    }
     updateCommentList(updatedComments)
   }
 
   /**
  * Updates the content of a comment or reply
  * 
- * @param commentedId - the id of the comment to be edited
+ * @param id - the id of the comment to be edited
  * @param newValue - the new content
- * @param editedPost (optional) - if the comment being deleted is a reply, this argument is needed to find it among the replies of the top level comment
+ * @param editedPost (optional) - if the comment being edited is a reply, this argument is needed to find it among the replies of the top level comment
  * @returns undefined
  */
   const handleEdit = (id: number, newValue: string, editedPost?: MessageMeta) => {

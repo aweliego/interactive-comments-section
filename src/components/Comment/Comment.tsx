@@ -53,14 +53,14 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList
         setDeleteModalOpen(false)
     }
 
-    const upvoteComment = (): void => {
+    const upvoteComment = (id: number, upvotedReply?: MessageMeta): void => {
         setCommentScore(prevScore => prevScore + 1)
-        onScoreChange(id, +1)
+        onScoreChange(id, +1, upvotedReply)
     }
 
-    const downvoteComment = (): void => {
+    const downvoteComment = (id: number, downvotedReply?: MessageMeta): void => {
         setCommentScore(prevScore => prevScore - 1)
-        onScoreChange(id, -1)
+        onScoreChange(id, -1, downvotedReply)
     }
 
     return (
@@ -99,14 +99,14 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList
                         src={IconPlus}
                         alt='upvote'
                         className={`text-neutral-gray-light ${isCurrentUser ? 'hover:cursor-default' : 'hover:cursor-pointer'} w-3`}
-                        onClick={isCurrentUser ? undefined : upvoteComment}
+                        onClick={isCurrentUser ? undefined : () => upvoteComment(id, isReply ? comment : undefined)}
                     />
                     <p className="text-primary-blue-moderate font-medium py-2 md:py-4 w-10 text-center">{commentScore}</p>
                     <img
                         src={IconMinus}
                         alt='downvote'
                         className={`text-neutral-gray-light ${isCurrentUser ? 'hover:cursor-default' : 'hover:cursor-pointer'} w-3`}
-                        onClick={isCurrentUser ? undefined : downvoteComment}
+                        onClick={isCurrentUser ? undefined : () => downvoteComment(id, isReply ? comment : undefined)}
                     />
                 </div>
 

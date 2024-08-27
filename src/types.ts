@@ -36,5 +36,5 @@ export interface CommentInterface {
     onReply: (parentComment: MessageMeta, reply: MessageMeta) => void
     onEdit: (commentId: number, newValue: string, editedPost?: MessageMeta) => void
     onDelete: (commentId: number, deletedPost?: MessageMeta) => void
-    onScoreChange: (commentId: number, change: number) => void
+    onScoreChange: (commentId: number, change: number, reply?: MessageMeta) => void
 }
