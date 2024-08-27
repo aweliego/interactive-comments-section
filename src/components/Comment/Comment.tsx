@@ -111,7 +111,7 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList
 
                 {/* CTA */}
                 {isCurrentUser ?
-                    (<div className={`${isEditing && isMobile ? 'hidden' : 'flex items-center gap-2 mr-4 md:mr-0 hover:cursor-pointer row-start-3 row-span-1 md:row-start-1 md:row-span-1 col-start-3 col-span-1 justify-end'}`}>
+                    (<div className={`${isEditing && isMobile ? 'hidden' : 'cta-button'}`}>
                         <div className='flex items-center fill-primary-red-soft hover:fill-primary-red-pale   text-primary-red-soft hover:text-primary-red-pale  '>
                             <DeleteIcon />
                             <p className="font-medium mr-4"
@@ -126,7 +126,7 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList
                             comment={comment}
                             isReply={isReply}
                         />
-                        <div className='flex items-center fill-primary-blue-moderate hover:fill-primary-blue-light  text-primary-blue-moderate hover:text-primary-blue-light '>
+                        <div className='flex items-center cta-button-blue'>
                             <EditIcon />
                             <p className="font-medium"
                                 onClick={editComment}
@@ -134,7 +134,7 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList
                         </div>
                     </div>
                     ) : !isEditing &&
-                    (<div className='flex items-center gap-2 mr-4 md:mr-0 hover:cursor-pointer row-start-3 row-span-1 md:row-start-1 md:row-span-1 col-start-3 col-span-1 justify-end  fill-primary-blue-moderate hover:fill-primary-blue-light text-primary-blue-moderate hover:text-primary-blue-light '>
+                    (<div className='cta-button cta-button-blue'>
                         <ReplyIcon />
                         <p className="font-medium"
                             onClick={handleClickReply}

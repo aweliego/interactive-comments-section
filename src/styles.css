@@ -3,3 +3,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .cta-button {
+        @apply flex items-center gap-2 mr-4 md:mr-0 hover:cursor-pointer row-start-3 row-span-1 md:row-start-1 md:row-span-1 col-start-3 col-span-1 justify-end
+    }
+
+    .cta-button-blue {
+        @apply fill-primary-blue-moderate hover:fill-primary-blue-light text-primary-blue-moderate hover:text-primary-blue-light
+    }
+}
