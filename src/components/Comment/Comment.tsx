@@ -9,6 +9,7 @@ import SubmitButton from '../SubmitButton'
 import DeleteConfirmationModal from './DeleteConfirmationModal'
 
 import { CommentInterface } from '../../types'
+import { MessageMeta } from '../../types'
 import { autoResize } from '../../utils'
 
 
@@ -39,8 +40,8 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList
         setAction('edit')
     }
 
-    const handleUpdate = (): void => {
-        onEdit(id, commentValue)
+    const handleUpdate = (id: number, editedComment?: MessageMeta): void => {
+        onEdit(id, commentValue, editedComment)
         setIsEditing(false)
     }
 
@@ -83,7 +84,7 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList
                         </textarea>
                         <SubmitButton
                             action={action}
-                            onClick={handleUpdate}
+                            onClick={() => handleUpdate(id, isReply ? comment : undefined)}
                         />
                     </>
                 ) : (<div className='text-neutral-blue-grayish px-2 md:px-0 py-4 row-start-2 row-span-1 col-start-1 col-span-3 md:col-start-2 md:col-span-2 w-full'>

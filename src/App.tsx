@@ -103,13 +103,44 @@ const App = () => {
     updateCommentList(updatedComments)
   }
 
-  const handleEdit = (id: number, newValue: string) => {
-    const updatedComments = commentList.map(comment => {
-      if (comment.id === id) {
-        return { ...comment, content: newValue }
+  /**
+ * Updates the content of a comment or reply
+ * 
+ * @param commentedId - the id of the comment to be edited
+ * @param newValue - the new content
+ * @param editedPost (optional) - if the comment being deleted is a reply, this argument is needed to find it among the replies of the top level comment
+ * @returns undefined
+ */
+  const handleEdit = (id: number, newValue: string, editedPost?: MessageMeta) => {
+    let updatedComments: MessageMeta[] = []
+    if (editedPost) {
+      const topLevelComment = findTopLevelComment(editedPost, commentList)
+      if (topLevelComment && topLevelComment.replies) {
+        const updatedReplies = topLevelComment.replies.map(reply => {
+          if (reply.id === id) {
+            return { ...reply, content: newValue }
+          }
+          return reply
+        })
+
+        const updatedComment = {
+          ...topLevelComment,
+          replies: updatedReplies
+        }
+
+        updatedComments = commentList.map(comment =>
+          comment.id === topLevelComment.id ? updatedComment : comment
+        )
       }
-      return comment
-    })
+
+    } else {
+      updatedComments = commentList.map(comment => {
+        if (comment.id === id) {
+          return { ...comment, content: newValue }
+        }
+        return comment
+      })
+    }
     updateCommentList(updatedComments)
   }
 
