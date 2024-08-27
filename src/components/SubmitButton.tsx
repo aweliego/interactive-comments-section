@@ -19,7 +19,7 @@ const SubmitButton: React.FC<ButtonProps> = ({ action, disabled, onClick }) => {
     }
 
     return (
-        <button className={`justify-self-end col-start-3 md:col-span-1 md:row-span-1 md:col-start-3 px-8 py-3 rounded  bg-primary-blue-moderate text-white ${disabled ? 'cursor-not-allowed opacity-70' : 'opacity-100 hover:bg-primary-blue-light cursor-pointer'} ${action === 'edit' ? 'mt-8 row-start-3 md:row-start-4' : 'row-start-2 md:row-start-1'} `}
+        <button className={`justify-self-end col-start-3 md:col-span-1 md:row-span-1 md:col-start-3 px-8 py-3 rounded  bg-primary-blue-moderate text-white ${disabled ? 'cursor-not-allowed opacity-70' : 'opacity-100 hover:bg-primary-blue-light cursor-pointer'} ${action === 'edit' ? 'mt-2 row-start-3 md:row-start-4' : 'row-start-2 md:row-start-1'} `}
             type='submit'
             disabled={disabled}
             onClick={onClick}>

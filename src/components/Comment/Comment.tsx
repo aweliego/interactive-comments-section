@@ -75,7 +75,7 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList
                 {isEditing ? (
                     <>
                         <textarea
-                            className='col-start-1 col-span-3 row-start-2 md:row-span-2 md:col-start-2 md:col-span-2 p-2 my-4 border-2 border-neutral-gray-light outline-primary-blue-moderate h-full resize-none overflow-hidden '
+                            className='col-start-1 col-span-3 row-start-2 md:row-span-2 md:col-start-2 md:col-span-2 p-2 my-4 border-2 border-neutral-gray-light outline-primary-blue-moderate resize-none overflow-hidden h-32'
                             rows={isMobile ? 4 : 3}
                             onChange={(e) => { setCommentValue(e.target.value); autoResize(e) }}
                             value={commentValue}

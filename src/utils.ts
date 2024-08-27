@@ -3,7 +3,7 @@ import moment from 'moment'
 
 export const autoResize = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const textarea = e.target as HTMLTextAreaElement
-    textarea.style.height = '56px'
+    textarea.style.height = '8rem'
     const scrollHeight = textarea.scrollHeight
     textarea.style.height = scrollHeight + 'px'
 }
