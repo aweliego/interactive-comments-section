@@ -1,9 +1,12 @@
-import data from './data'
-import Comment from './components/Comment/Comment'
-import NewCommentForm from './components/NewCommentForm'
 import { useEffect, useState } from 'react'
-import { MessageMeta } from './types'
+
+import data from './data'
+import Comment from './components/Comment'
+import NewCommentForm from './components/NewCommentForm'
+
 import { updateTimestamps } from './utils'
+
+import { MessageMeta } from './types'
 
 const App = () => {
   const { currentUser } = data
@@ -24,7 +27,7 @@ const App = () => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCommentList(prevComments => updateTimestamps(prevComments))
-    }, 60000) // Update every minute
+    }, 60000)
 
     return () => clearInterval(intervalId)
   }, [])

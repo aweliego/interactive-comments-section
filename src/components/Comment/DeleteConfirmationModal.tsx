@@ -1,23 +1,22 @@
 import Modal from '../Modal'
 import { MessageMeta } from '../../types'
 
-interface DeleteConfirmationModalProps {
+type DeleteConfirmationModalProps = {
     isOpen: boolean
-    id: number
     comment: MessageMeta
     isReply: boolean
     onCancel: () => void
     onDelete: (id: number, reply?: MessageMeta) => void
-};
+}
 
-const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
+const DeleteConfirmationModal = ({
     isOpen,
-    id,
     comment,
     isReply,
     onCancel,
     onDelete
-}) => {
+}: DeleteConfirmationModalProps) => {
+    const { id } = comment
 
     const deleteComment = (id: number, deletedComment?: MessageMeta): void => {
         onDelete(id, deletedComment)

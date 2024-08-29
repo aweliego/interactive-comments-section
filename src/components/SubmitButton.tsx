@@ -4,7 +4,7 @@ type ButtonProps = {
     onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
 }
 
-const SubmitButton: React.FC<ButtonProps> = ({ action, disabled, onClick }) => {
+const SubmitButton = ({ action, disabled, onClick }: ButtonProps) => {
 
     const updateButtonText = (action: string | undefined): string | undefined => {
         if (action) {

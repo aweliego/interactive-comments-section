@@ -1,9 +1,9 @@
-import { MessageMeta, CurrentUserMeta } from '../types'
-
 import { useState } from 'react'
 import moment from 'moment'
 
 import SubmitButton from './SubmitButton'
+
+import { MessageMeta, CurrentUserMeta } from '../types'
 
 const NewCommentForm: React.FC<CurrentUserMeta> = ({ image, username, action, followUpAction, commentList, comment, onNewTopLevelComment, onReply }) => {
     const [disabled, setDisabled] = useState<boolean>(true)

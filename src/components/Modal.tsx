@@ -1,14 +1,14 @@
 import { useState, useEffect, useRef } from 'react'
 
-interface ModalProps {
+type ModalProps = {
     isOpen: boolean
     children: React.ReactNode
-};
+}
 
-const Modal: React.FC<ModalProps> = ({
+const Modal = ({
     isOpen,
     children
-}) => {
+}: ModalProps) => {
     const [isModalOpen, setModalOpen] = useState(isOpen)
     const modalRef = useRef<HTMLDialogElement | null>(null)
 
