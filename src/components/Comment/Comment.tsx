@@ -22,6 +22,7 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList
     const [isCommentFormOpen, setIsCommentFormOpen] = useState<boolean>(false)
     const [isDeleteModalOpen, setDeleteModalOpen] = useState<boolean>(false)
     const [action, setAction] = useState<string>('create')
+    const [isDisabled, setIsDisabled] = useState<boolean>(false)
     const isReply = !!replyingTo
     const isCurrentUser: boolean = comment?.user?.username === currentUser?.username
     const isMobile: boolean = window.innerWidth < 600
@@ -56,11 +57,13 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList
     const upvoteComment = (id: number, upvotedReply?: MessageMeta): void => {
         setCommentScore(prevScore => prevScore + 1)
         onScoreChange(id, +1, upvotedReply)
+        setIsDisabled(true)
     }
 
     const downvoteComment = (id: number, downvotedReply?: MessageMeta): void => {
         setCommentScore(prevScore => prevScore - 1)
         onScoreChange(id, -1, downvotedReply)
+        setIsDisabled(true)
     }
 
     return (
@@ -99,14 +102,14 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList
                         src={IconPlus}
                         alt='upvote'
                         className={`text-neutral-gray-light ${isCurrentUser ? 'hover:cursor-default' : 'hover:cursor-pointer'} w-3`}
-                        onClick={isCurrentUser ? undefined : () => upvoteComment(id, isReply ? comment : undefined)}
+                        onClick={isCurrentUser || isDisabled ? undefined : () => upvoteComment(id, isReply ? comment : undefined)}
                     />
                     <p className="text-primary-blue-moderate font-medium py-2 md:py-4 w-10 text-center">{commentScore}</p>
                     <img
                         src={IconMinus}
                         alt='downvote'
-                        className={`text-neutral-gray-light ${isCurrentUser ? 'hover:cursor-default' : 'hover:cursor-pointer'} w-3`}
-                        onClick={isCurrentUser ? undefined : () => downvoteComment(id, isReply ? comment : undefined)}
+                        className={`text-neutral-gray-light ${isCurrentUser || isDisabled ? 'hover:cursor-default' : 'hover:cursor-pointer'} w-3`}
+                        onClick={isCurrentUser || isDisabled ? undefined : () => downvoteComment(id, isReply ? comment : undefined)}
                     />
                 </div>
 
