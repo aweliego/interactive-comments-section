@@ -12,6 +12,9 @@ export default {
           red: {
             soft: 'hsl(358, 79%, 66%)',
             pale: 'hsl(357, 100%, 86%)'
+          },
+          green: {
+            success: 'hsla(116, 88%, 29%)'
           }
         },
         neutral: {

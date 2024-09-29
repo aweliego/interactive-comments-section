@@ -27,6 +27,7 @@ export interface CurrentUserMeta {
     comment?: MessageMeta
     onNewTopLevelComment?: (list: MessageMeta[]) => void
     onReply?: (parentComment: MessageMeta, reply: MessageMeta) => void
+    showAlert?: (display?: boolean, type?: string, text?: string) => void
 }
 
 export interface CommentInterface {
@@ -37,4 +38,11 @@ export interface CommentInterface {
     onEdit: (commentId: number, newValue: string, editedPost?: MessageMeta) => void
     onDelete: (commentId: number, deletedPost?: MessageMeta) => void
     onScoreChange: (commentId: number, change: number, reply?: MessageMeta) => void
+    showAlert?: (display?: boolean, type?: string, text?: string) => void
+}
+
+export interface AlertInterface {
+    show: boolean
+    type: string
+    text: string
 }

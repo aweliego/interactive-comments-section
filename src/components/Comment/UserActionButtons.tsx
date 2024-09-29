@@ -14,9 +14,10 @@ type UserActionButtonsProps = {
     onDelete: (commentId: number, deletedPost?: MessageMeta) => void
     editComment: () => void
     handleClickReply: () => void
+    showAlert: (display?: boolean, type?: string, text?: string) => void
 }
 
-const UserActionButtons = ({ comment, isEditing, isMobile, isReply, isCurrentUser, onDelete, editComment, handleClickReply }: UserActionButtonsProps) => {
+const UserActionButtons = ({ comment, isEditing, isMobile, isReply, isCurrentUser, onDelete, editComment, handleClickReply, showAlert }: UserActionButtonsProps) => {
     const [isDeleteModalOpen, setDeleteModalOpen] = useState<boolean>(false)
 
     const handleOpenConfirmationModal = (): void => {
@@ -43,6 +44,7 @@ const UserActionButtons = ({ comment, isEditing, isMobile, isReply, isCurrentUse
                         onCancel={handleCloseConfirmationModal}
                         comment={comment}
                         isReply={isReply}
+                        showAlert={showAlert}
                     />
                     <div className='flex items-center cta-button-blue'>
                         <EditIcon />

@@ -6,10 +6,9 @@ import Score from './Score'
 import UserActionButtons from './UserActionButtons'
 import NewCommentForm from '../NewCommentForm'
 
-import { CommentInterface } from '../../types'
-import { MessageMeta } from '../../types'
+import { CommentInterface, MessageMeta } from '../../types'
 
-const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList, onReply, onEdit, onDelete, onScoreChange }) => {
+const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList, onReply, onEdit, onDelete, onScoreChange, showAlert = () => { } }) => {
     const { replyingTo } = comment
     const { image, username } = currentUser
     const [isEditing, setIsEditing] = useState<boolean>(false)
@@ -35,6 +34,7 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList
 
     const handleUpdate = (id: number, commentValue: string, editedComment?: MessageMeta): void => {
         onEdit(id, commentValue, editedComment)
+        showAlert && showAlert(true, 'success', 'Comment successfully updated!')
         setIsEditing(false)
     }
 
@@ -57,6 +57,7 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList
                     isReply={isReply}
                     isMobile={isMobile}
                     isCurrentUser={isCurrentUser}
+                    showAlert={showAlert}
                 />
                 <UserActionButtons
                     comment={comment}
@@ -67,6 +68,7 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList
                     onDelete={onDelete}
                     editComment={editComment}
                     handleClickReply={handleClickReply}
+                    showAlert={showAlert}
                 />
             </article>
             {isCommentFormOpen &&
@@ -78,7 +80,8 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList
                         followUpAction={handleHideNewCommentForm}
                         commentList={commentList}
                         comment={comment}
-                        onReply={onReply} />
+                        onReply={onReply}
+                        showAlert={showAlert} />
                 </div>)}
             {comment.replies?.length !== 0 ? (
                 <div className='flex w-full'>
@@ -94,6 +97,7 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList
                             onEdit={onEdit}
                             onDelete={onDelete}
                             onScoreChange={onScoreChange}
+                            showAlert={showAlert}
                         />))}
                     </div>
                 </div>) : null}

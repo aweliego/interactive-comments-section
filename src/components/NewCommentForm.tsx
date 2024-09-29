@@ -5,7 +5,7 @@ import SubmitButton from './SubmitButton'
 
 import { MessageMeta, CurrentUserMeta } from '../types'
 
-const NewCommentForm: React.FC<CurrentUserMeta> = ({ image, username, action, followUpAction, commentList, comment, onNewTopLevelComment, onReply }) => {
+const NewCommentForm: React.FC<CurrentUserMeta> = ({ image, username, action, followUpAction, commentList, comment, onNewTopLevelComment, onReply, showAlert }) => {
     const [disabled, setDisabled] = useState<boolean>(true)
     const [newCommentContent, setNewCommentContent] = useState<string>('')
 
@@ -28,13 +28,12 @@ const NewCommentForm: React.FC<CurrentUserMeta> = ({ image, username, action, fo
         setNewCommentContent('')
         setDisabled(true)
         followUpAction && followUpAction()
+        showAlert && showAlert(true, 'success', `${onNewTopLevelComment ? 'Comment' : 'Reply'} successfully sent!`)
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
         setNewCommentContent(e.target.value)
-        if (e.target.value.trim() !== "" && e.target.value.trim() !== "\n") {
-            setDisabled(false)
-        }
+        setDisabled(e.target.value.trim() !== "" && e.target.value.trim() !== "\n" ? false : true)
     }
 
     return (

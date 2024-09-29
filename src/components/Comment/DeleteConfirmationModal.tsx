@@ -7,6 +7,7 @@ type DeleteConfirmationModalProps = {
     isReply: boolean
     onCancel: () => void
     onDelete: (id: number, reply?: MessageMeta) => void
+    showAlert: (display?: boolean, type?: string, text?: string) => void
 }
 
 const DeleteConfirmationModal = ({
@@ -14,12 +15,14 @@ const DeleteConfirmationModal = ({
     comment,
     isReply,
     onCancel,
-    onDelete
+    onDelete,
+    showAlert
 }: DeleteConfirmationModalProps) => {
     const { id } = comment
 
     const deleteComment = (id: number, deletedComment?: MessageMeta): void => {
         onDelete(id, deletedComment)
+        showAlert(true, 'success', 'Comment successfully deleted!')
     }
 
     return (

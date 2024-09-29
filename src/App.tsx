@@ -3,10 +3,11 @@ import { useEffect, useState } from 'react'
 import data from './data'
 import Comment from './components/Comment'
 import NewCommentForm from './components/NewCommentForm'
+import Alert from './components/Alert'
 
 import { updateTimestamps } from './utils'
 
-import { MessageMeta } from './types'
+import { AlertInterface, MessageMeta } from './types'
 
 const App = () => {
   const { currentUser } = data
@@ -19,6 +20,7 @@ const App = () => {
   const sortCommentsByScore = (comments: MessageMeta[]) => comments.sort((a, b) => b.score - a.score)
 
   const [commentList, setCommentList] = useState<MessageMeta[]>(sortCommentsByScore(getCommentsFromStorage()))
+  const [alert, setAlert] = useState<AlertInterface>({ show: false, type: '', text: '' })
 
   useEffect(() => {
     localStorage.setItem('comments', JSON.stringify(commentList))
@@ -178,8 +180,13 @@ const App = () => {
     updateCommentList(updatedComments)
   }
 
+  const showAlert = (show = false, type = '', text = ''): void => {
+    setAlert({ show, type, text })
+  }
+
   return (
     <main className='flex flex-col items-center justify-center max-w-default mx-auto p-10'>
+      {alert.show && <Alert {...alert} showAlert={showAlert} />}
       {commentList.map((comment) =>
         <>
           <Comment
@@ -191,6 +198,7 @@ const App = () => {
             onEdit={handleEdit}
             onDelete={handleDelete}
             onScoreChange={handleScoreChange}
+            showAlert={showAlert}
           />
         </>
       )}
@@ -199,6 +207,7 @@ const App = () => {
         action={'create'}
         commentList={commentList}
         onNewTopLevelComment={updateCommentList}
+        showAlert={showAlert}
       />
     </main>
   )
