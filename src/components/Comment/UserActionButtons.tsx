@@ -14,7 +14,7 @@ type UserActionButtonsProps = {
     onDelete: (commentId: number, deletedPost?: MessageMeta) => void
     editComment: () => void
     handleClickReply: () => void
-    showAlert: (display?: boolean, type?: string, text?: string) => void
+    showAlert: (type: string, text: string) => void
 }
 
 const UserActionButtons = ({ comment, isEditing, isMobile, isReply, isCurrentUser, onDelete, editComment, handleClickReply, showAlert }: UserActionButtonsProps) => {

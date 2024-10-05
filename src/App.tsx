@@ -20,7 +20,7 @@ const App = () => {
   const sortCommentsByScore = (comments: MessageMeta[]) => comments.sort((a, b) => b.score - a.score)
 
   const [commentList, setCommentList] = useState<MessageMeta[]>(sortCommentsByScore(getCommentsFromStorage()))
-  const [alert, setAlert] = useState<AlertInterface>({ show: false, type: '', text: '' })
+  const [alerts, setAlerts] = useState<AlertInterface[]>([])
 
   useEffect(() => {
     localStorage.setItem('comments', JSON.stringify(commentList))
@@ -180,13 +180,18 @@ const App = () => {
     updateCommentList(updatedComments)
   }
 
-  const showAlert = (show = false, type = '', text = ''): void => {
-    setAlert({ show, type, text })
+  const showAlert = (type: string, text: string) => {
+    const newAlert = { id: Date.now(), type, text }
+    setAlerts((prevAlerts) => [...prevAlerts, newAlert])
+  }
+
+  const removeAlert = (id: number) => {
+    setAlerts((prevAlerts) => prevAlerts.filter((alert) => alert.id !== id))
   }
 
   return (
     <main className='flex flex-col items-center justify-center max-w-default mx-auto p-10'>
-      {alert.show && <Alert {...alert} showAlert={showAlert} />}
+      <Alert alerts={alerts} removeAlert={removeAlert} />
       {commentList.map((comment) =>
         <>
           <Comment

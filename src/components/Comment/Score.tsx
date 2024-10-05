@@ -12,7 +12,7 @@ type ScoreProps = {
     isReply: boolean
     isCurrentUser: boolean
     isMobile: boolean
-    showAlert: (display?: boolean, type?: string, text?: string) => void
+    showAlert: (type: string, text: string) => void
 }
 
 const Score = ({ comment, onScoreChange, isEditing, isReply, isMobile, isCurrentUser, showAlert }: ScoreProps) => {
@@ -23,14 +23,14 @@ const Score = ({ comment, onScoreChange, isEditing, isReply, isMobile, isCurrent
     const upvoteComment = (id: number, upvotedReply?: MessageMeta): void => {
         setCommentScore(prevScore => prevScore + 1)
         onScoreChange(id, +1, upvotedReply)
-        showAlert(true, 'success', 'Comment successfully upvoted!')
+        showAlert('success', 'Comment successfully upvoted!')
         setIsDisabled(true)
     }
 
     const downvoteComment = (id: number, downvotedReply?: MessageMeta): void => {
         setCommentScore(prevScore => prevScore - 1)
         onScoreChange(id, -1, downvotedReply)
-        showAlert(true, 'success', 'Comment successfully downvoted!')
+        showAlert('success', 'Comment successfully downvoted!')
         setIsDisabled(true)
     }
 
@@ -41,8 +41,8 @@ const Score = ({ comment, onScoreChange, isEditing, isReply, isMobile, isCurrent
                 alt='upvote'
                 className={`text-neutral-gray-light ${isCurrentUser ? 'hover:cursor-default' : 'hover:cursor-pointer'} w-3`}
                 onClick={
-                    isCurrentUser ? () => showAlert(true, 'danger', 'You cannot upvote your own comment!')
-                        : isDisabled ? () => showAlert(true, 'danger', 'You can only upvote once!')
+                    isCurrentUser ? () => showAlert('danger', 'You cannot upvote your own comment!')
+                        : isDisabled ? () => showAlert('danger', 'You can only upvote once!')
                             : () => upvoteComment(id, isReply ? comment : undefined)}
             />
             <p className="text-primary-blue-moderate font-medium py-2 md:py-4 w-10 text-center">{commentScore}</p>
@@ -51,8 +51,8 @@ const Score = ({ comment, onScoreChange, isEditing, isReply, isMobile, isCurrent
                 alt='downvote'
                 className={`text-neutral-gray-light ${isCurrentUser || isDisabled ? 'hover:cursor-default' : 'hover:cursor-pointer'} w-3`}
                 onClick={
-                    isCurrentUser ? () => showAlert(true, 'danger', 'You cannot downvote your own comment!')
-                        : isDisabled ? () => showAlert(true, 'danger', 'You can only downvote once!')
+                    isCurrentUser ? () => showAlert('danger', 'You cannot downvote your own comment!')
+                        : isDisabled ? () => showAlert('danger', 'You can only downvote once!')
                             : () => downvoteComment(id, isReply ? comment : undefined)}
             />
         </div>

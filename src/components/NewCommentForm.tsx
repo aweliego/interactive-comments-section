@@ -28,7 +28,7 @@ const NewCommentForm: React.FC<CurrentUserMeta> = ({ image, username, action, fo
         setNewCommentContent('')
         setDisabled(true)
         followUpAction && followUpAction()
-        showAlert && showAlert(true, 'success', `${onNewTopLevelComment ? 'Comment' : 'Reply'} successfully sent!`)
+        showAlert && showAlert('success', `${onNewTopLevelComment ? 'Comment' : 'Reply'} successfully sent!`)
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {

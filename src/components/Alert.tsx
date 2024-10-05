@@ -1,26 +1,40 @@
 import { useEffect } from 'react'
 
+import { AlertInterface } from '../types'
+
 type AlertProps = {
-    type: string
-    text: string
-    showAlert: () => void
+    alerts: AlertInterface[]
+    removeAlert: (id: number) => void
 }
 
 const Alert = ({
-    type,
-    text,
-    showAlert
+    alerts,
+    removeAlert
 }: AlertProps) => {
 
     useEffect(() => {
-        const timeout = setTimeout(() => {
-            showAlert()
-        }, 3000)
-        return () => clearTimeout(timeout)
-    }, [])
+        const timeouts = alerts.map((alert) => {
+            return setTimeout(() => {
+                removeAlert(alert.id)
+            }, 3000)
+        })
+
+        return () => {
+            timeouts.forEach(timeout => clearTimeout(timeout))
+        }
+    }, [alerts, removeAlert])
 
     return (
-        <aside className={`${type === 'success' ? 'bg-primary-green-success' : 'bg-primary-red-soft'} text-white fixed bottom-5 right-5 p-4`}>{text}</aside>
+        <div className="fixed bottom-5 right-5 space-y-2">
+            {alerts.map((alert) => (
+                <aside
+                    key={alert.id}
+                    className={`${alert.type === 'success' ? 'bg-primary-green-success' : 'bg-primary-red-soft'} text-white p-4 rounded shadow-lg`}
+                >
+                    {alert.text}
+                </aside>
+            ))}
+        </div>
     )
 }
 

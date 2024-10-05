@@ -34,7 +34,7 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList
 
     const handleUpdate = (id: number, commentValue: string, editedComment?: MessageMeta): void => {
         onEdit(id, commentValue, editedComment)
-        showAlert && showAlert(true, 'success', 'Comment successfully updated!')
+        showAlert && showAlert('success', 'Comment successfully updated!')
         setIsEditing(false)
     }
 
