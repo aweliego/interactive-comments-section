@@ -36,7 +36,7 @@ describe('<Comment />', () => {
   beforeEach(() => {
     user = userEvent.setup()
     render(<MockApp />)
-    commentCurrentUser = screen.getByText(/juliusomo/i).closest('article')
+    commentCurrentUser = screen.getAllByText(/juliusomo/i)[0].closest('article')
     expect(commentCurrentUser).toBeInTheDocument()
     commentOtherUser = screen.getByText(/amyrobson/i).closest('article')
     expect(commentOtherUser).toBeInTheDocument()

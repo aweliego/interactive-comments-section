@@ -14,7 +14,7 @@ const App = () => {
 
   const getCommentsFromStorage = () => {
     const savedComments = localStorage.getItem('comments')
-    return savedComments ? JSON.parse(savedComments) : []
+    return savedComments ? JSON.parse(savedComments) : data.comments
   }
 
   const sortCommentsByScore = (comments: MessageMeta[]) => comments.sort((a, b) => b.score - a.score)
