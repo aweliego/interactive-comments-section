@@ -72,9 +72,12 @@ describe('<Comment />', () => {
 
       const newCommentContent = await screen.findByText('Posting a new comment!')
       expect(newCommentContent).toBeInTheDocument()
+      const alert = await screen.findByRole('complementary')
+      expect(alert).toBeInTheDocument()
+      expect(alert?.textContent).toBe('Comment successfully sent!')
     })
 
-    it('should disable the Send button if the comment content is blank', async () => {
+    it('should disable the Send button if the comment content is blank', () => {
       const textbox = screen.getByPlaceholderText(/add a comment/i)
       const sendBtn = screen.getByRole('button', {
         name: /send/i
@@ -87,66 +90,93 @@ describe('<Comment />', () => {
   describe('when a user replies to a comment', () => {
     it('should render a new reply after clicking the Reply button', async () => {
       const replyActionBtn = screen.getAllByText(/reply/i)[1]
-      const textbox = screen.getByPlaceholderText(/add a comment/i)
       await user.click(replyActionBtn)
-      await user.type(textbox, 'Replying to a comment!')
+      const textbox = await screen.findAllByPlaceholderText(/add a comment/i)
+      await user.type(textbox[0], 'Replying to a comment!')
       const replySubmitBtn = await screen.findByRole('button', {
         name: /reply/i
       })
       await user.click(replySubmitBtn)
       const newReplyContent = await screen.findByText('Replying to a comment!')
       expect(newReplyContent).toBeInTheDocument()
+      const alert = await screen.findByRole('complementary')
+      expect(alert).toBeInTheDocument()
+      expect(alert?.textContent).toBe('Reply successfully sent!')
     })
   })
 
   describe('when a user updates the score of a comment', () => {
     let score: HTMLElement | null
-    let upvoteIcon: HTMLElement | null
-    let downvoteIcon: HTMLElement | null
+    let upvoteIconCurrentUser: HTMLElement | null
+    let upvoteIconOtherUser: HTMLElement | null
+    let downvoteIconCurrentUser: HTMLElement | null
+    let downvoteIconOtherUser: HTMLElement | null
+    let alert: HTMLElement | null
 
-    it('should not allow user to update the score of their own comment', () => {
-      if (commentCurrentUser && upvoteIcon && downvoteIcon) {
-        score = within(commentCurrentUser).getByText('2')
-        expect(score).toBeInTheDocument()
-        upvoteIcon = within(commentCurrentUser).getByAltText(/upvote/i)
-        expect(upvoteIcon).toBeInTheDocument()
-        downvoteIcon = within(commentCurrentUser).getByAltText(/downvote/i)
-        expect(downvoteIcon).toBeInTheDocument()
+    beforeEach(() => {
+      if (commentCurrentUser && commentOtherUser) {
+        upvoteIconCurrentUser = within(commentCurrentUser).getByAltText(/upvote/i)
+        expect(upvoteIconCurrentUser).toBeInTheDocument()
+        downvoteIconCurrentUser = within(commentCurrentUser).getByAltText(/downvote/i)
+        expect(downvoteIconCurrentUser).toBeInTheDocument()
 
-        user.click(upvoteIcon)
-        expect(score?.textContent).toBe('2')
-        user.click(downvoteIcon)
-        expect(score?.textContent).toBe('2')
+        upvoteIconOtherUser = within(commentOtherUser).getByAltText(/upvote/i)
+        expect(upvoteIconCurrentUser).toBeInTheDocument()
+        downvoteIconOtherUser = within(commentOtherUser).getByAltText(/downvote/i)
+        expect(downvoteIconCurrentUser).toBeInTheDocument()
       }
     })
 
-    describe('Upvote and downvote functions', () => {
-      if (commentOtherUser) {
+    it('should not allow user to update the score of their own comment', async () => {
+      if (commentCurrentUser && upvoteIconCurrentUser && downvoteIconCurrentUser) {
+        score = within(commentCurrentUser).getByText('2')
+        expect(score).toBeInTheDocument()
+
+        user.click(upvoteIconCurrentUser)
+        expect(score?.textContent).toBe('2')
+        alert = await screen.findByRole('complementary')
+        expect(alert).toBeInTheDocument()
+        expect(alert).toHaveTextContent(/^You cannot upvote your own comment!$/)
+
+        user.click(downvoteIconCurrentUser)
+        expect(score?.textContent).toBe('2')
+        alert = await screen.findByRole('complementary')
+        expect(alert).toBeInTheDocument()
+        expect(alert).toHaveTextContent(/^You cannot upvote your own comment!$/)
+      }
+    })
+
+    it('should increase the score by 1 if the user clicks the + button on another comment and disable the + button after', async () => {
+      if (commentOtherUser && upvoteIconOtherUser) {
         score = within(commentOtherUser).getByText('12')
         expect(score).toBeInTheDocument()
-        upvoteIcon = within(commentOtherUser).getByAltText(/upvote/i)
-        expect(upvoteIcon).toBeInTheDocument()
-        downvoteIcon = within(commentOtherUser).getByAltText(/downvote/i)
-        expect(downvoteIcon).toBeInTheDocument()
-      }
 
-      it('should increase the score by 1 if the user clicks the + button on another comment', () => {
-        if (upvoteIcon) {
-          user.click(upvoteIcon)
-          expect(score?.textContent).toBe('13')
-        }
-      })
-      it('should decrease the score by 1 if the user clicks the - button on another comment', () => {
-        if (downvoteIcon) {
-          user.click(downvoteIcon)
-          expect(score?.textContent).toBe('11')
-        }
-      })
+        await user.click(upvoteIconOtherUser)
+        expect(score?.textContent).toBe('13')
+        alert = await screen.findByRole('complementary')
+        expect(alert).toBeInTheDocument()
+        expect(alert).toHaveTextContent(/^Comment successfully upvoted!$/)
+      }
+    })
+
+    it('should decrease the score by 1 if the user clicks the - button on another comment and disable the - button after', async () => {
+      if (commentOtherUser && downvoteIconOtherUser) {
+        score = within(commentOtherUser).getByText('13')
+        expect(score).toBeInTheDocument()
+
+        await user.click(downvoteIconOtherUser)
+        expect(score?.textContent).toBe('12')
+        alert = await screen.findByRole('complementary')
+        expect(alert).toBeInTheDocument()
+        expect(alert).toHaveTextContent(/^Comment successfully downvoted!$/)
+      }
     })
   })
 
   describe('when a user edits their comment', () => {
     let editActionBtn: HTMLElement | null
+    let alert: HTMLElement | null
+
     beforeEach(() => {
       if (commentCurrentUser) {
         editActionBtn = within(commentCurrentUser).getByText(/edit/i)
@@ -189,6 +219,9 @@ describe('<Comment />', () => {
         if (commentCurrentUser) {
           const editedContent = await within(commentCurrentUser).findByText('Editing my comment!')
           expect(editedContent).toBeInTheDocument()
+          alert = await screen.findByRole('complementary')
+          expect(alert).toBeInTheDocument()
+          expect(alert).toHaveTextContent(/^Comment successfully updated!$/)
         }
       })
     })
@@ -197,6 +230,8 @@ describe('<Comment />', () => {
 
   describe('when a user deletes a comment', () => {
     let deleteActionBtn: HTMLElement | null
+    let alert: HTMLElement | null
+
     it('should not allow user to delete comments from other users', () => {
       if (commentOtherUser) deleteActionBtn = within(commentOtherUser).queryByText(/delete/i)
       expect(deleteActionBtn).toBeNull()
@@ -233,6 +268,9 @@ describe('<Comment />', () => {
           expect(confirmDeleteBtn).toBeInTheDocument()
           await user.click(confirmDeleteBtn)
           expect(commentCurrentUser).not.toBeInTheDocument()
+          alert = await screen.findByRole('complementary')
+          expect(alert).toBeInTheDocument()
+          expect(alert).toHaveTextContent(/^Comment successfully deleted!$/)
         }
       })
     })
