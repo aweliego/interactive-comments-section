@@ -7,7 +7,8 @@ export default {
         primary: {
           blue: {
             light: 'hsl(239, 57%, 85%)',
-            moderate: 'hsl(238, 40%, 52%)'
+            moderate: 'hsl(238, 40%, 52%)',
+            disabled: 'hsl(239, 57%, 72%)',
           },
           red: {
             soft: 'hsl(358, 79%, 66%)',
