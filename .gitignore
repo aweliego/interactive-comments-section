@@ -32,3 +32,6 @@ dist-ssr
 *.sw?
 .prettierignore
 
+
+# Local Netlify folder
+.netlify

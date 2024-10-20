@@ -23,7 +23,7 @@ This is a solution to the [Interactive comments section challenge on Frontend Me
 
 ## Overview
 
-### 📋 The challenge 
+### The challenge 📋 
 
 Users should be able to:
 
@@ -33,7 +33,7 @@ Users should be able to:
 - Upvote and downvote comments.
 - View the time that has elapsed since a comment or reply has been posted.
 
-### 🧪 Expected behaviour 
+### Expected behaviour 🧪 
 
 - First-level comments should be ordered by their score, whereas nested replies are ordered by time added.
 - Replying to a comment adds the new reply to the bottom of the nested replies within that comment.
@@ -45,12 +45,12 @@ Users should be able to:
 - A notification alert will be displayed for every successful user action.
 - A warning will be displayed for every unauthorized user action.
 
-### 🔗 Links 
+### Links 🔗
 
-- Solution URL: [Add solution URL here](https://your-solution-url.com)
-- Live Site URL: [Add live site URL here](https://your-live-site-url.com)
+- [](Solution URL)
+- [https://interactive-comment-section-fem-challenge.netlify.app/](Live Site URL)
 
-### 🖥️ Setup
+### Setup 🖥️
 
 To run this project, install it locally and launch it with the following commands:
 
@@ -65,7 +65,7 @@ Run the tests with this command:
 $ npm run test
 ```
 
-## 📝 My process
+## My process 📝 
 
 ### ♻️ Workflow
 
@@ -118,7 +118,7 @@ At some point I think I was a bit behind with my tests, so I could spend quite l
 
 When I thought I was done with the project, while using the app, I noticed half a dozen of things that didn't work well yet, or could be refactored. And more even could have been done; for example you'll notice there is no transition or animation in my solution. But I decided to leave those out since you don't typically see those in a comment section, and I had already experimented a lot with those in past projects (thus there was no real added value to add them here).
 
-### 🧰 Built with
+### Built with 🧰 
 
 - Semantic HTML5 markup
 - CSS Grid
@@ -131,7 +131,7 @@ When I thought I was done with the project, while using the app, I noticed half 
 - [Vite](https://vitejs.dev/)
 - [Vitest](https://vitest.dev/)
 
-### 📈 What I learned
+### What I learned 📈 
 
 Main takeaways from this project:
 - rendering a dynamic UI based on a complex data object 
@@ -143,7 +143,7 @@ Other minor takeaways:
 - implementing dynamic time stamps using the Moment.js library
 - importing SVGs in React/Vite
 
-### 📚 Useful resources
+### Useful resources 📚 
 
 - [React Testing Library Crash Course by Net Ninja and Laithacademy](https://www.youtube.com/playlist?list=PL4cUxeGkcC9gm4_-5UsNmLqMosM-dzuvQ) - This is a nice series to practice very common patterns in the RTL.
 - [How to Unit Test your React TypeScript App With Vitest and React Testing Library](https://codingpr.com/test-your-react-app-with-vitest-and-react-testing-library/) - Another resource that helped me implementing my unit tests.
