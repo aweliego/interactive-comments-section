@@ -47,7 +47,7 @@ Users should be able to:
 
 ### 🔗 Links 
 
-- [](Solution URL)
+- [Solution URL](https://www.frontendmentor.io/solutions/interactive-comment-section-with-react-typescript-and-tailwindcss-grds2rcFdt)
 - [Live Site URL](https://interactive-comment-section-fem-challenge.netlify.app/)
 
 ### 🖥️ Setup
