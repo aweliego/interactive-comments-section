@@ -48,7 +48,7 @@ Users should be able to:
 ### 🔗 Links 
 
 - [](Solution URL)
-- [https://interactive-comment-section-fem-challenge.netlify.app/](Live Site URL)
+- [Live Site URL](https://interactive-comment-section-fem-challenge.netlify.app/)
 
 ### 🖥️ Setup
 
