@@ -1,6 +1,5 @@
 import { describe, it, expect, beforeAll, beforeEach, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
-import userEvent, { UserEvent } from '@testing-library/user-event'
 import App from './App'
 
 // Check if the methods are not defined and define them if necessary
@@ -30,14 +29,12 @@ const MockApp = () => {
 }
 
 describe('<App />', () => {
-    let user: UserEvent,
-        parentContainer: HTMLElement | null,
+    let parentContainer: HTMLElement | null,
         articles: Array<HTMLElement>,
         highestScoredPost: HTMLElement | null,
         secondHighestScoredPost: HTMLElement | null
 
     beforeEach(() => {
-        user = userEvent.setup()
         render(<MockApp />)
         parentContainer = screen.getByRole('main')
         articles = parentContainer ? Array.from(parentContainer.querySelectorAll('article')) : []
