@@ -41,7 +41,9 @@ const Comment: React.FC<CommentInterface> = ({ comment, currentUser, commentList
     return (
         <>
             <article className={`bg-neutral-white rounded grid ${isEditing ? 'grid-rows-mobile_add' : 'grid-rows-mobile grid-cols-mobile'}  md:grid-rows-desktop md:grid-cols-desktop w-full p-4 md:p-8 my-2`}>
-                <Meta comment={comment} />
+                <Meta
+                    comment={comment}
+                    isCurrentUser={isCurrentUser} />
                 <Content
                     comment={comment}
                     isEditing={isEditing}
